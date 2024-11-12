@@ -1,0 +1,68 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Styling for the main container */
+  .App {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Ensure that any buttons look consistent */
+  button {
+    cursor: pointer;
+    background-color: #5a5af0;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3a3af0;
+  }
+  
+  /* Utility classes for spacing */
+  .mt-10 {
+    margin-top: 10px;
+  }
+  
+  .mb-20 {
+    margin-bottom: 20px;
+  }
+  
+  /* Basic link styles */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  a:hover {
+    color: #5a5af0;
+  }
+  
+  /* Scrollbar customization */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #5a5af0;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #e0e0e0;
+  }
+  
