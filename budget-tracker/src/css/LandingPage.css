@@ -1,0 +1,59 @@
+.landing-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  .logo {
+    height: 40px;
+    margin-right: auto;
+  }
+  
+  .appbar-buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .dashboard-button {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 4px;
+  }
+  
+  .get-started-button {
+    background-color: purple;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 4px;
+  }
+  
+  .body-content {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+  }
+  
+  .main-text {
+    font-size: 50px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .sub-text {
+    font-size: 24px;
+    color: #555;
+    margin-top: 20px;
+  }
+  
+  .get-started-button-body {
+    background-color: purple;
+    color: white;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 4px;
+    margin-top: 40px;
+  }
+  
+  

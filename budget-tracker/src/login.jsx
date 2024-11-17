@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import './login.css';
 
 function Login() {
@@ -12,15 +13,31 @@ function Login() {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-container">
       <div className="image-section">
         <img src={require('./Background.jpg')} alt="Login Illustration" />      
       </div>
       <div className="form-section">
-        <h2>Login</h2>
+        <h2>Sign in</h2>
+        <p>to continue to Budget Tracker</p>
+
+        <button className="social-button facebook">
+          <FaFacebook style={{ marginRight: '8px' }} />
+          Continue with Facebook
+        </button>
+        
+        <button className="social-button google">
+          <FaGoogle style={{ marginRight: '8px' }} />
+          Continue with Google
+        </button>
+
+        <div className="divider">
+          <span>or</span>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email address</label>
             <input
               type="email"
               id="email"
@@ -39,10 +56,11 @@ function Login() {
               required
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" className="continue-button">Continue</button>
         </form>
+
         <p>
-          Don't have an account? <Link to="/register">Register here</Link>
+          No account? <Link to="/register">Sign up</Link>
         </p>
       </div>
     </div>
