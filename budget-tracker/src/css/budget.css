@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  .budget-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #f0f0f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  nav li {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  nav li.active,
+  nav li:hover {
+    background-color: #c7d3ff;
+  }
+  
+  .profile-section {
+    margin-top: auto;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #e0e0e5;
+  }
+  
+  .profile-icon,
+  .logout-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .budget-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .budget-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card-icon {
+    font-size: 3rem;
+  }
+  
+  .card-info {
+    text-align: center;
+    margin: 15px 0;
+  }
+  
+  .card-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .card-info h4 {
+    margin-top: 10px;
+    color: #5a5af0;
+  }
+  
+  .card-progress {
+    width: 100%;
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background-color: #5a5af0;
+    transition: width 0.4s ease-in-out;
+  }
+  
+  .card-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
