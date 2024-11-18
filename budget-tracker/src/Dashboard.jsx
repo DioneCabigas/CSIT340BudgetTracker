@@ -1,95 +1,90 @@
-import React from 'react';
-import { Card, CardContent, Typography, Grid2 } from '@mui/material';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import Sidebar from './Sidebar';
+import React from "react";
+import { Card, CardContent, Typography, Grid } from "@mui/material";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import Sidebar from "./Sidebar";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
     datasets: [
-      {
-        label: 'Utilities',
-        data: [500, 700, 400, 600, 800],
-        backgroundColor: 'green',
-      },
-      {
-        label: 'Rent',
-        data: [300, 400, 500, 300, 400],
-        backgroundColor: 'blue',
-      },
-      {
-        label: 'Food',
-        data: [200, 300, 200, 300, 200],
-        backgroundColor: 'red',
-      },
-      {
-        label: 'Gasoline',
-        data: [100, 150, 100, 150, 100],
-        backgroundColor: 'orange',
-      },
+      { label: "Utilities", data: [500, 700, 400, 600, 800], backgroundColor: "green" },
+      { label: "Rent", data: [300, 400, 500, 300, 400], backgroundColor: "blue" },
+      { label: "Food", data: [200, 300, 200, 300, 200], backgroundColor: "red" },
+      { label: "Gasoline", data: [100, 150, 100, 150, 100], backgroundColor: "orange" },
     ],
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
       {/* Sidebar */}
-      <Sidebar/>
+      <Sidebar />
 
       {/* Main Content */}
-      <main style={{ flex: 1, padding: '1.5rem' }}>
-        {/* Header */}
-        <div style={{ backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem', borderRadius: '8px', border: '1px solid' }}>
-          <h1 style={{ margin: 0 }}>Hi, User!</h1>
-          <p style={{ margin: '0.5rem 0' }}>Here's what happening with your money. Let's manage your expense.</p>
+      <main style={{ flex: 1, padding: "1rem" }}>
+        {/* Header Section */}
+        <div
+          style={{
+            backgroundColor: "#fff",
+            padding: "1.5rem",
+            borderRadius: "8px",
+            marginBottom: "1rem",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h4">Hi, User!</Typography>
+          <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
+            Here's what happening with your money. Let's manage your expense.
+          </Typography>
         </div>
 
-        {/* Dashboard Content */}
-        <Grid2 container spacing={2}>
-          <Grid2 xs={12} sm={4}>
-            <Card style={{ height: '120px', textAlign: 'center' }}>
+        {/* Top Statistics */}
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={4}>
+            <Card style={{ textAlign: "center", height: "120px" }}>
               <CardContent>
-                <Typography variant="h6">Total Budget</Typography>
-                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>$15100</Typography>
+                <Typography variant="subtitle1">Total Budget</Typography>
+                <Typography variant="h5" style={{ marginTop: "0.5rem" }}>$15100</Typography>
               </CardContent>
             </Card>
-          </Grid2>
-          <Grid2 xs={12} sm={4}>
-            <Card style={{ height: '120px', textAlign: 'center' }}>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Card style={{ textAlign: "center", height: "120px" }}>
               <CardContent>
-                <Typography variant="h6">Total Spend</Typography>
-                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>$4830</Typography>
+                <Typography variant="subtitle1">Total Spend</Typography>
+                <Typography variant="h5" style={{ marginTop: "0.5rem" }}>$4830</Typography>
               </CardContent>
             </Card>
-          </Grid2>
-          <Grid2 xs={12} sm={4}>
-            <Card style={{ height: '120px', textAlign: 'center' }}>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Card style={{ textAlign: "center", height: "120px" }}>
               <CardContent>
-                <Typography variant="h6">No. of Budgets</Typography>
-                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>5</Typography>
+                <Typography variant="subtitle1">No. of Budgets</Typography>
+                <Typography variant="h5" style={{ marginTop: "0.5rem" }}>5</Typography>
               </CardContent>
             </Card>
-          </Grid2>
-          
-          <Grid2 xs={12} md={7}>
-            <Card style={{ height: '300px' }}>
+          </Grid>
+        </Grid>
+
+        {/* Chart and Latest Budgets */}
+        <Grid container spacing={2} style={{ marginTop: "1rem" }}>
+          <Grid item xs={12} md={7}>
+            <Card style={{ height: "300px" }}>
               <CardContent>
-                <Typography variant="h6" style={{ marginBottom: '1rem' }}>Expenses by Month</Typography>
-                <div style={{ width: '100%', height: '200px' }}>
+                <Typography variant="h6" style={{ marginBottom: "1rem" }}>Expenses by Month</Typography>
+                <div style={{ height: "200px" }}>
                   <Bar data={data} options={{ maintainAspectRatio: false }} />
                 </div>
               </CardContent>
             </Card>
-          </Grid2>
-          
-          <Grid2 xs={12} md={5}>
-            <Card style={{ height: '300px', overflow: 'auto' }}>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <Card style={{ height: "300px", overflowY: "auto" }}>
               <CardContent>
                 <Typography variant="h6">Latest Budgets</Typography>
-                {/* Mock Data for Budget items */}
-                <div style={{ marginTop: '1rem' }}>
+                <div style={{ marginTop: "1rem" }}>
                   <Typography>Shopping</Typography>
                   <Typography color="textSecondary">$2300</Typography>
                   <Typography>Home Decor</Typography>
@@ -99,30 +94,32 @@ const Dashboard = () => {
                 </div>
               </CardContent>
             </Card>
-          </Grid2>
+          </Grid>
+        </Grid>
 
-          <Grid2 xs={12}>
+        {/* Latest Expenses */}
+        <Grid container spacing={2} style={{ marginTop: "1rem" }}>
+          <Grid item xs={12}>
             <Card>
               <CardContent>
                 <Typography variant="h6">Latest Expenses</Typography>
-                {/* Table-like structure for latest expenses */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem', padding: '0.5rem 0' }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
                   <Typography>Name</Typography>
                   <Typography>Amount</Typography>
                   <Typography>Date</Typography>
                   <Typography>Action</Typography>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: "0.5rem" }}>
                   <Typography>Groceries</Typography>
                   <Typography>$120</Typography>
                   <Typography>10/05/2023</Typography>
                   <Typography>View</Typography>
                 </div>
-                {/* Additional rows for mock expenses can be added here */}
+                {/* Additional rows for mock expenses */}
               </CardContent>
             </Card>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </main>
     </div>
   );
