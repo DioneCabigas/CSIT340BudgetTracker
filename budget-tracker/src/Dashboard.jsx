@@ -22,16 +22,13 @@ const Dashboard = () => {
       {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
       <main style={{ flex: 1, padding: "1rem" }}>
-        {/* Header Section */}
         <div
           style={{
             backgroundColor: "#fff",
             padding: "1.5rem",
             borderRadius: "8px",
             marginBottom: "1rem",
-            textAlign: "center",
           }}
         >
           <Typography variant="h4">Hi, User!</Typography>
@@ -40,7 +37,7 @@ const Dashboard = () => {
           </Typography>
         </div>
 
-        {/* Top Statistics */}
+        {/* Statistics | To be changed */}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
             <Card style={{ textAlign: "center", height: "120px" }}>
@@ -68,7 +65,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
 
-        {/* Chart and Latest Budgets */}
+        {/* Chart | Update once thers data */}
         <Grid container spacing={2} style={{ marginTop: "1rem" }}>
           <Grid item xs={12} md={7}>
             <Card style={{ height: "300px" }}>
@@ -115,7 +112,6 @@ const Dashboard = () => {
                   <Typography>10/05/2023</Typography>
                   <Typography>View</Typography>
                 </div>
-                {/* Additional rows for mock expenses */}
               </CardContent>
             </Card>
           </Grid>
