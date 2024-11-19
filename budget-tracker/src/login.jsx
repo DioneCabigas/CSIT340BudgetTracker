@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import './login.css';
+import './css/login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ function Login() {
   return (
     <div className="login-container">
       <div className="image-section">
-        <img src={require('./Background.jpg')} alt="Login Illustration" />      
+        <img src={require('./static/Background.jpg')} alt="Login Illustration" />      
       </div>
       <div className="form-section">
         <h2>Sign in</h2>
@@ -56,7 +56,9 @@ function Login() {
               required
             />
           </div>
-          <button type="submit" className="continue-button">Continue</button>
+          <Link to="/Dashboard" className="continue-button">
+           Continue
+          </Link>
         </form>
 
         <p>

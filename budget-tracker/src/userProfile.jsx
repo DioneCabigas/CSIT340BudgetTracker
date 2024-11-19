@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Avatar, Box, Grid } from '@mui/material';
 import { styled } from '@mui/system';
+import Sidebar from './Sidebar';
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   width: theme.spacing(15),
@@ -28,6 +29,7 @@ const UserProfile = () => {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 5 }}>
+
       <Box display="flex" flexDirection="column" alignItems="center">
         <StyledAvatar src={profileImage} alt={user.name}>
           {!profileImage && user.name.charAt(0)}

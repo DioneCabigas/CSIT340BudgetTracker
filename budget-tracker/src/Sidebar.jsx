@@ -12,7 +12,7 @@ const Sidebar = () => {
         <div style={{ width: '300px', backgroundColor: '#f5f5f5', padding: '1rem' }}>
             <Typography variant="h5" style={{ marginBottom: '1rem', fontWeight: 'bold', textAlign: 'center' }}>LOGO</Typography>
             <List>
-            <ListItem button component={Link} to={'/'}>
+            <ListItem button component={Link} to={'/dashboard'}>
                 <ListItemIcon><DashboardIcon fontSize='large' /></ListItemIcon>
                 <ListItemText 
                 primary="Dashboard"
@@ -36,10 +36,10 @@ const Sidebar = () => {
                 primary="Upgrade"
                 primaryTypographyProps={{ fontSize: '1.2rem' }} />
             </ListItem>
-            <ListItem button component={Link} to={'/account'}>
+            <ListItem button component={Link} to={'/accounts'}>
                 <ListItemIcon><AccountCircleIcon fontSize='large' /></ListItemIcon>
                 <ListItemText 
-                primary="Account"
+                primary="Accounts"
                 primaryTypographyProps={{ fontSize: '1.2rem' }} />
             </ListItem>
             </List>

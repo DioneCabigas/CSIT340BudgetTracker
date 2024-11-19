@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, AppBar, Toolbar, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import './LandingPage.css';
+import './css/LandingPage.css';
+
 
 function LandingPage() {
   return (
@@ -37,22 +38,24 @@ function LandingPage() {
               </Button>
             </Link>
             <Button
-              variant="contained"
-              sx={{
-                backgroundColor: '#4747e9',
-                color: 'white',
-                fontWeight: 'bold',
-                padding: '10px 20px',
-                borderRadius: '4px',
-                '&:hover': {
-                  backgroundColor: '#3a3ae0',
-                },
-                boxShadow: 'none',
-                textTransform: 'none',
-              }}
-            >
-              Get Started
-            </Button>
+      variant="contained"
+      component={Link}
+      to="/Login"
+      sx={{
+        backgroundColor: '#4747e9',
+        color: 'white',
+        fontWeight: 'bold',
+        padding: '10px 20px',
+        borderRadius: '4px',
+        '&:hover': {
+          backgroundColor: '#3a3ae0',
+        },
+        boxShadow: 'none',
+        textTransform: 'none',
+      }}
+    >
+      Get Started
+    </Button>
           </div>
         </Toolbar>
       </AppBar>
