@@ -19,10 +19,10 @@ const Dashboard = () => {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
-      {/* Sidebar */}
+      
       <Sidebar />
 
-      <main style={{ flex: 1, padding: "1rem" }}>
+      <main style={{ flex: 1, padding: "2rem" }}>
         <div
           style={{
             backgroundColor: "#fff",

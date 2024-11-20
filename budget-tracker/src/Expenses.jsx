@@ -3,9 +3,7 @@ import { FaShoppingBag, FaEdit, FaTrash } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 
 const Expenses = () => {
-  const [expenses, setExpenses] = useState([
-    { name: "Adobobots", amount: 150, date: "20/04/2024" },
-  ]);
+  const [expenses, setExpenses] = useState([]);
   const [expenseName, setExpenseName] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -13,14 +11,15 @@ const Expenses = () => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
 
-  const BUDGET = 2300;
+  const budget_allocation_amount = 2300;
+  const budget_name = "Shopping";
 
   const totalItems = expenses.length; 
   const totalSpend = expenses.reduce(
     (sum, expense) => sum + Number(expense.amount),
     0
   );
-  const remainingAmount = BUDGET - totalSpend;
+  const remainingAmount = budget_allocation_amount - totalSpend;
 
   const handleAddExpense = () => {
     if (isEditing) {
@@ -71,7 +70,9 @@ const Expenses = () => {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
+
       <Sidebar />
+      
       <main style={{ flex: 1, padding: "2rem" }}>
         <div
           style={{
@@ -93,27 +94,30 @@ const Expenses = () => {
               backgroundColor: "#fff",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
               width: "100%",
-              maxWidth: "650px",
+              maxWidth: "750px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-              <FaShoppingBag style={{ fontSize: "2rem", color: "#7a5cfa", marginRight: "0.75rem" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "5rem" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <FaShoppingBag style={{ fontSize: "3.85rem", color: "#7a5cfa", marginRight: "1rem" }} />
+                <div>
+                  <h2 style={{ margin: 0, fontSize: "1.75rem", color: "#333", fontWeight: "600" }}>{budget_name}</h2>
+                  <p style={{ margin: 0, fontSize: "1rem", color: "#666" }}>
+                    {totalItems} Item{totalItems !== 1 ? "s" : ""}
+                  </p>
+                </div>
+              </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: "1.25rem", color: "#333", fontWeight: "600" }}>Shopping</h3>
-                <p style={{ margin: 0, fontSize: "0.875rem", color: "#666" }}>
-                  {totalItems} Item{totalItems !== 1 ? "s" : ""}
-                </p>
+                <h2 style={{ margin: 0, fontSize: "1.85rem", color: "#333", fontWeight: "600" }}>${budget_allocation_amount}</h2>
               </div>
             </div>
-            <div style={{ marginBottom: "1rem" }}>
-              <h2 style={{ margin: 0, fontSize: "1.75rem", color: "#333", fontWeight: "600" }}>${BUDGET}</h2>
-            </div>
+
             <div>
               <p
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  fontSize: "0.875rem",
+                  fontSize: "0.95rem",
                   color: "#666",
                   marginBottom: "0.5rem",
                 }}
@@ -139,7 +143,7 @@ const Expenses = () => {
                 <div
                   style={{
                     height: "100%",
-                    width: `${(totalSpend / BUDGET) * 100}%`,
+                    width: `${(totalSpend / budget_allocation_amount) * 100}%`,
                     backgroundColor: "#7a5cfa",
                     borderRadius: "4px",
                     transition: "width 0.3s ease",
@@ -152,7 +156,7 @@ const Expenses = () => {
           <div
             style={{
               flex: 1,
-              padding: "1.5rem",
+              padding: "1rem",
               border: "1px solid #ddd",
               borderRadius: "10px",
               backgroundColor: "#fff",
@@ -161,9 +165,10 @@ const Expenses = () => {
               maxWidth: "750px",
             }}
           >
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem", color: "#333", fontWeight: "600" }}>
+            <h2 style={{ fontSize: "1.rem", marginBottom: "1rem", color: "#333", fontWeight: "600", }}>
               {isEditing ? "Edit Expense" : "Add Expense"}
             </h2>
+
             <input
               type="text"
               placeholder="Expense Name"
@@ -171,13 +176,14 @@ const Expenses = () => {
               onChange={(e) => setExpenseName(e.target.value)}
               style={{
                 width: "100%",
-                maxWidth: "675px",
+                maxWidth: "590px",
                 marginBottom: "1rem",
                 padding: "10px",
                 borderRadius: "5px",
                 border: "1px solid #ddd",
               }}
             />
+
             <input
               type="number"
               placeholder="Expense Amount"
@@ -185,13 +191,14 @@ const Expenses = () => {
               onChange={(e) => setExpenseAmount(e.target.value)}
               style={{
                 width: "100%",
-                maxWidth: "675px",
+                maxWidth: "590px",
                 marginBottom: "1rem",
                 padding: "10px",
                 borderRadius: "5px",
                 border: "1px solid #ddd",
               }}
             />
+
             <button
               onClick={handleAddExpense}
               disabled={!expenseName || !expenseAmount}

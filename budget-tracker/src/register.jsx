@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './register.css';
+import './css/register.css';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
+
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ function Register() {
   return (
     <div className="login-container">
       <div className="image-section">
-        <img src={require('./Background.jpg')} alt="Register Illustration" />      
+        <img src={require('./static/Background.jpg')} alt="Register Illustration" />      
       </div>
       <div className="form-section">
         <h2>Sign up</h2>
@@ -71,7 +72,7 @@ function Register() {
         </form>
         
         <p>
-          Already have an account? <Link to="/">Login here</Link>
+          Already have an account? <Link to="/Login">Login here</Link>
         </p>
       </div>
     </div>

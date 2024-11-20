@@ -76,8 +76,10 @@ function LandingPage() {
         </Typography>
 
         <Button
-          variant="contained"
-          sx={{
+         variant="contained"
+         component={Link}
+         to="/Login"
+         sx={{
             backgroundColor: '#4747e9',
             color: 'white',
             fontWeight: 'bold',

@@ -3,7 +3,6 @@ import { List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/mat
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import UpgradeIcon from '@mui/icons-material/Upgrade';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from "react-router-dom";
 
@@ -30,16 +29,10 @@ const Sidebar = () => {
                 primary="Expenses"
                 primaryTypographyProps={{ fontSize: '1.2rem' }} />
             </ListItem>
-            <ListItem button component={Link} to={'/upgrades'}>
-                <ListItemIcon><UpgradeIcon fontSize='large' /></ListItemIcon>
-                <ListItemText 
-                primary="Upgrade"
-                primaryTypographyProps={{ fontSize: '1.2rem' }} />
-            </ListItem>
             <ListItem button component={Link} to={'/accounts'}>
                 <ListItemIcon><AccountCircleIcon fontSize='large' /></ListItemIcon>
                 <ListItemText 
-                primary="Accounts"
+                primary="Account"
                 primaryTypographyProps={{ fontSize: '1.2rem' }} />
             </ListItem>
             </List>

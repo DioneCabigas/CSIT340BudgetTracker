@@ -6,7 +6,8 @@ import Expenses from "./Expenses";
 import Upgrades from "./Upgrades";
 import Accounts from "./Accounts";
 import LandingPage from "./LandingPage";
-import Login from "./login";
+import Login from "./Login";
+import Register from "./Register";
 
 
 const AllRoutes = () => {
@@ -14,8 +15,9 @@ const AllRoutes = () => {
     <div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/register" element={<Register />}/>
         <Route path="/budgets" element={<Budgets />} />
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/upgrades" element={<Upgrades />} />
