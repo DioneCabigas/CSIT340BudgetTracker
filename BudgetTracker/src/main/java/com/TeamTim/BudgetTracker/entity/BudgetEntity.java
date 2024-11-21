@@ -1,44 +1,29 @@
 package com.TeamTim.BudgetTracker.entity;
 
 import jakarta.persistence.*;
-
+import java.util.List;
 
 @Entity
+@Table(name = "budget")
 public class BudgetEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int budgetId;
+    @Column(nullable = false, unique = true)
+    private String budgetName; // Primary Key
 
-    private String budgetName;
-    private double budgetAllocationAmount;
-    private String description;
+    @Column(nullable = false)
+    private Double budgetAmountAllocated;
 
+    // Many Budgets belong to one User
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    public BudgetEntity() {
-        super();
-    }
+    // One Budget can have multiple Expenses
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExpenseEntity> expenses;
 
-    public BudgetEntity(int budgetId, String budgetName, double budgetAllocationAmount, String description, UserEntity user) {
-        super();
-        this.budgetId = budgetId;
-        this.budgetName = budgetName;
-        this.budgetAllocationAmount = budgetAllocationAmount;
-        this.description = description;
-        this.user = user;
-    }
-
-    public int getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(int budgetId) {
-        this.budgetId = budgetId;
-    }
-
+    // Getters and Setters
     public String getBudgetName() {
         return budgetName;
     }
@@ -47,20 +32,12 @@ public class BudgetEntity {
         this.budgetName = budgetName;
     }
 
-    public double getBudgetAllocationAmount() {
-        return budgetAllocationAmount;
+    public Double getBudgetAmountAllocated() {
+        return budgetAmountAllocated;
     }
 
-    public void setBudgetAllocationAmount(double budgetAllocationAmount) {
-        this.budgetAllocationAmount = budgetAllocationAmount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBudgetAmountAllocated(Double budgetAmountAllocated) {
+        this.budgetAmountAllocated = budgetAmountAllocated;
     }
 
     public UserEntity getUser() {
@@ -69,5 +46,13 @@ public class BudgetEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public List<ExpenseEntity> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<ExpenseEntity> expenses) {
+        this.expenses = expenses;
     }
 }
