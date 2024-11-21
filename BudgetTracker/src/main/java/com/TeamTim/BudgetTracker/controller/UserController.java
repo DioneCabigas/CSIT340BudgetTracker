@@ -1,6 +1,7 @@
 package com.TeamTim.BudgetTracker.controller;
 
 import com.TeamTim.BudgetTracker.entity.UserEntity;
+import com.TeamTim.BudgetTracker.repository.UserRepository;
 import com.TeamTim.BudgetTracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;  // Correctly reference userRepository
 
     @Autowired
     private UserService userService;
@@ -41,5 +46,17 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Login functionality (added)
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody UserEntity user) {
+        // Find the user by email
+        UserEntity existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
+            return ResponseEntity.ok("Login successful!");
+        } else {
+            return ResponseEntity.status(401).body("Invalid email or password.");
+        }
     }
 }

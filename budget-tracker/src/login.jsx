@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import './css/login.css';
+import axios from 'axios';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login details submitted:", { email, password });
+    try {
+      const response = await axios.post('http://localhost:8080/api/users/login', { email, password });
+      console.log('Login successful:', response.data);
+      navigate('/Dashboard'); // Redirect to Dashboard
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('Invalid email or password!');
+    }
   };
 
   return (
     <div className="login-container">
       <div className="image-section">
-        <img src={require('./static/Background.jpg')} alt="Login Illustration" />      
+        <img src={require('./static/Background.jpg')} alt="Login Illustration" />
       </div>
       <div className="form-section">
         <h2>Sign in</h2>
@@ -25,7 +34,7 @@ function Login() {
           <FaFacebook style={{ marginRight: '8px' }} />
           Continue with Facebook
         </button>
-        
+
         <button className="social-button google">
           <FaGoogle style={{ marginRight: '8px' }} />
           Continue with Google
@@ -56,9 +65,9 @@ function Login() {
               required
             />
           </div>
-          <Link to="/Dashboard" className="continue-button">
-           Continue
-          </Link>
+          <button type="submit" className="continue-button">
+            Continue
+          </button>
         </form>
 
         <p>
