@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import './login.css';
+import './css/login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login details submitted:", { email, password });
+
+    // Check if the email and password match the test credentials
+    if (email === 'test@test.com' && password === 'test') {
+      console.log("Login successful!");
+      navigate('/dashboard'); // Redirect to the dashboard
+    } else {
+      console.log("Invalid credentials");
+    }
   };
 
   return (
     <div className="login-container">
       <div className="image-section">
-        <img src={require('./Background.jpg')} alt="Login Illustration" />      
+        <img src={require('./assets/Background.jpg')} alt="Register Illustration" />
       </div>
       <div className="form-section">
         <h2>Sign in</h2>
@@ -25,7 +33,7 @@ function Login() {
           <FaFacebook style={{ marginRight: '8px' }} />
           Continue with Facebook
         </button>
-        
+
         <button className="social-button google">
           <FaGoogle style={{ marginRight: '8px' }} />
           Continue with Google

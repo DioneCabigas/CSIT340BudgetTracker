@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, AppBar, Toolbar, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import './LandingPage.css';
+import './css/LandingPage.css';
 
 function LandingPage() {
   return (
@@ -36,23 +36,25 @@ function LandingPage() {
                 Dashboard
               </Button>
             </Link>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: '#4747e9',
-                color: 'white',
-                fontWeight: 'bold',
-                padding: '10px 20px',
-                borderRadius: '4px',
-                '&:hover': {
-                  backgroundColor: '#3a3ae0',
-                },
-                boxShadow: 'none',
-                textTransform: 'none',
-              }}
-            >
-              Get Started
-            </Button>
+            <Link to="/login" style={{ textDecoration: 'none' }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#4747e9',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  padding: '10px 20px',
+                  borderRadius: '4px',
+                  '&:hover': {
+                    backgroundColor: '#3a3ae0',
+                  },
+                  boxShadow: 'none',
+                  textTransform: 'none',
+                }}
+              >
+                Get Started
+              </Button>
+            </Link>
           </div>
         </Toolbar>
       </AppBar>
@@ -72,24 +74,26 @@ function LandingPage() {
           Start creating your budget and save a ton of money
         </Typography>
 
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: '#4747e9',
-            color: 'white',
-            fontWeight: 'bold',
-            padding: '12px 30px',
-            borderRadius: '4px',
-            '&:hover': {
-              backgroundColor: '#3a3ae0',
-            },
-            boxShadow: 'none',
-            marginTop: '30px',
-            textTransform: 'none',
-          }}
-        >
-          Get Started
-        </Button>
+        <Link to="/login" style={{ textDecoration: 'none' }}>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: '#4747e9',
+              color: 'white',
+              fontWeight: 'bold',
+              padding: '12px 30px',
+              borderRadius: '4px',
+              '&:hover': {
+                backgroundColor: '#3a3ae0',
+              },
+              boxShadow: 'none',
+              marginTop: '30px',
+              textTransform: 'none',
+            }}
+          >
+            Get Started
+          </Button>
+        </Link>
       </div>
     </div>
   );

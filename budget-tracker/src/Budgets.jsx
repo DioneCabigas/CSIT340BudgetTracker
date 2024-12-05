@@ -1,16 +1,10 @@
-<<<<<<< Updated upstream
-import React from "react";
-=======
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
->>>>>>> Stashed changes
 import Sidebar from "./Sidebar";
+import { TextField, Button } from "@mui/material";
 
 const Budgets = () => {
-<<<<<<< Updated upstream
-
-=======
   const [budgets, setBudgets] = useState(
     JSON.parse(localStorage.getItem("budgets")) || []
   );
@@ -27,18 +21,8 @@ const Budgets = () => {
     // Sync budgets with localStorage whenever they change
     localStorage.setItem("budgets", JSON.stringify(budgets));
   }, [budgets]);
->>>>>>> Stashed changes
 
-    return (
-        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
-            {/* Sidebar */}
-            <Sidebar/>
-
-<<<<<<< Updated upstream
-            <main style={{ flex: 1, padding: '1.5rem' }}>
-                Add Stuff Here
-            </main>
-=======
+  const handleAddOrEditBudget = () => {
     if (isEditMode) {
       const updatedBudgets = [...budgets];
       updatedBudgets[selectedBudgetIndex] = {
@@ -97,7 +81,7 @@ const Budgets = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              height: "150px",
+              minHeight: "150px",
               border: "2px dashed #ddd",
               borderRadius: "10px",
               backgroundColor: "#fff",
@@ -123,21 +107,22 @@ const Budgets = () => {
                   flexDirection: "column",
                   justifyContent: "space-between",
                   cursor: "pointer",
+                  height: "100%",
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <div style={{ fontSize: "2rem", marginRight: "0.75rem" }}>{budget.icon}</div>
+                    <div style={{ fontSize: "2.5rem", marginRight: "1rem" }}>{budget.icon}</div>
                     <div>
-                      <h3 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "600", color: "#333" }}>
+                      <h3 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "600", color: "#333" }}>
                         {budget.name}
                       </h3>
-                      <p style={{ margin: 0, fontSize: "0.875rem", color: "#666" }}>
+                      <p style={{ margin: 0, fontSize: "1rem", color: "#666" }}>
                         {budget.items} Items
                       </p>
                     </div>
                   </div>
-                  <h2 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "600", color: "#333" }}>
+                  <h2 style={{ margin: 0, fontSize: "1.75rem", fontWeight: "600", color: "#333" }}>
                     ${budget.amount}
                   </h2>
                 </div>
@@ -145,7 +130,7 @@ const Budgets = () => {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    fontSize: "0.875rem",
+                    fontSize: "1rem",
                     color: "#666",
                   }}
                 >
@@ -192,98 +177,86 @@ const Budgets = () => {
               </div>
             );
           })}
->>>>>>> Stashed changes
         </div>
-    )
-}
 
-<<<<<<< Updated upstream
-export default Budgets;
-=======
-      {isModalOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        {/* Modal for creating/editing budgets */}
+        {isModalOpen && (
           <div
             style={{
-              backgroundColor: "#fff",
-              padding: "2rem",
-              borderRadius: "8px",
-              width: "400px",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <h2 style={{ marginBottom: "2rem", textAlign: "center" }}>
-              {isEditMode ? "Edit Budget" : "Create New Budget"}
-            </h2>
-            <TextField
-              fullWidth
-              label="Budget Name"
-              variant="outlined"
-              value={newBudgetName}
-              onChange={(e) => setNewBudgetName(e.target.value)}
-              style={{ marginBottom: "1rem" }}
-            />
-            <TextField
-              fullWidth
-              label="Budget Allocation"
-              variant="outlined"
-              type="number"
-              value={newBudgetAllocation}
-              onChange={(e) => setNewBudgetAllocation(e.target.value)}
-              style={{ marginBottom: "1rem" }}
-            />
-            <div style={{ display: "flex", gap: "1rem", overflowX: "auto", marginBottom: "1rem" }}>
-              {iconOptions.map((icon, i) => (
-                <div
-                  key={i}
-                  onClick={() => setSelectedIcon(icon)}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "40px",
-                    height: "40px",
-                    fontSize: "1.5rem",
-                    cursor: "pointer",
-                    border: selectedIcon === icon ? "2px solid #7a5cfa" : "none",
-                    borderRadius: "50%",
-                  }}
-                >
-                  {icon}
-                </div>
-              ))}
+            <div
+              style={{
+                backgroundColor: "#fff",
+                padding: "2rem",
+                borderRadius: "8px",
+                width: "400px",
+              }}
+            >
+              <h2 style={{ marginBottom: "2rem", textAlign: "center" }}>
+                {isEditMode ? "Edit Budget" : "Create New Budget"}
+              </h2>
+              <TextField
+                fullWidth
+                label="Budget Name"
+                variant="outlined"
+                value={newBudgetName}
+                onChange={(e) => setNewBudgetName(e.target.value)}
+                style={{ marginBottom: "1rem" }}
+              />
+              <TextField
+                fullWidth
+                label="Budget Allocation"
+                variant="outlined"
+                type="number"
+                value={newBudgetAllocation}
+                onChange={(e) => setNewBudgetAllocation(e.target.value)}
+                style={{ marginBottom: "1rem" }}
+              />
+              <div style={{ display: "flex", gap: "1rem", overflowX: "auto", marginBottom: "1rem" }}>
+                {iconOptions.map((icon, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setSelectedIcon(icon)}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "40px",
+                      height: "40px",
+                      fontSize: "1.5rem",
+                      cursor: "pointer",
+                      border: selectedIcon === icon ? "2px solid #7a5cfa" : "none",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    {icon}
+                  </div>
+                ))}
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={handleAddOrEditBudget}
+              >
+                {isEditMode ? "Update Budget" : "Create Budget"}
+              </Button>
             </div>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={handleAddOrEditBudget}
-            >
-              {isEditMode ? "Update Budget" : "Create Budget"}
-            </Button>
-            <Button
-              fullWidth
-              style={{ marginTop: "1rem" }}
-              onClick={() => setIsModalOpen(false)}
-            >
-              Cancel
-            </Button>
           </div>
-        </div>
-      )}
+        )}
+      </main>
     </div>
   );
 };
 
 export default Budgets;
->>>>>>> Stashed changes

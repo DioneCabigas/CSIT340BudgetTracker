@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid2 } from '@mui/material';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
+import { ArrowUpward, ArrowDownward, AccountBalanceWallet } from '@mui/icons-material';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import Sidebar from './Sidebar';
@@ -35,45 +36,56 @@ const Dashboard = () => {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
-      {/* Sidebar */}
-      <Sidebar/>
-
-      {/* Main Content */}
-      <main style={{ flex: 1, padding: '1.5rem' }}>
-        {/* Header */}
-        <div style={{ backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem', borderRadius: '8px', border: '1px solid' }}>
+      <Sidebar />
+      <main style={{ flex: 1, padding: '2rem' }}>
+        <div
+          style={{
+            backgroundColor: '#fff',
+            padding: '1.5rem',
+            marginBottom: '1.5rem',
+            borderRadius: '8px',
+            border: '1px solid #ddd',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          }}
+        >
           <h1 style={{ margin: 0 }}>Hi, User!</h1>
-          <p style={{ margin: '0.5rem 0' }}>Here's what happening with your money. Let's manage your expense.</p>
+          <p style={{ margin: '0.5rem 0' }}>
+            Here's what's happening with your money. Let's manage your expense.
+          </p>
         </div>
 
-        {/* Dashboard Content */}
-        <Grid2 container spacing={2}>
-          <Grid2 xs={12} sm={4}>
-            <Card style={{ height: '120px', textAlign: 'center' }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <Card style={{ backgroundColor: '#d4f1d1', padding: '1.5rem', textAlign: 'center', borderRadius: '8px' }}>
               <CardContent>
+                <ArrowUpward style={{ color: '#4CAF50', fontSize: '2rem' }} />
                 <Typography variant="h6">Total Budget</Typography>
-                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>$15100</Typography>
+                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>$0.00</Typography>
               </CardContent>
             </Card>
-          </Grid2>
-          <Grid2 xs={12} sm={4}>
-            <Card style={{ height: '120px', textAlign: 'center' }}>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card style={{ backgroundColor: '#f9e1e1', padding: '1.5rem', textAlign: 'center', borderRadius: '8px' }}>
               <CardContent>
+                <ArrowDownward style={{ color: '#f44336', fontSize: '2rem' }} />
                 <Typography variant="h6">Total Spend</Typography>
-                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>$4830</Typography>
+                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>$230.32</Typography>
               </CardContent>
             </Card>
-          </Grid2>
-          <Grid2 xs={12} sm={4}>
-            <Card style={{ height: '120px', textAlign: 'center' }}>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card style={{ backgroundColor: '#e0e1ff', padding: '1.5rem', textAlign: 'center', borderRadius: '8px' }}>
               <CardContent>
+                <AccountBalanceWallet style={{ color: '#7e57c2', fontSize: '2rem' }} />
                 <Typography variant="h6">No. of Budgets</Typography>
                 <Typography variant="h5" style={{ marginTop: '0.5rem' }}>5</Typography>
               </CardContent>
             </Card>
-          </Grid2>
-          
-          <Grid2 xs={12} md={7}>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={3} style={{ marginTop: '2rem' }}>
+          <Grid item xs={12} md={7}>
             <Card style={{ height: '300px' }}>
               <CardContent>
                 <Typography variant="h6" style={{ marginBottom: '1rem' }}>Expenses by Month</Typography>
@@ -82,47 +94,89 @@ const Dashboard = () => {
                 </div>
               </CardContent>
             </Card>
-          </Grid2>
-          
-          <Grid2 xs={12} md={5}>
-            <Card style={{ height: '300px', overflow: 'auto' }}>
-              <CardContent>
-                <Typography variant="h6">Latest Budgets</Typography>
-                {/* Mock Data for Budget items */}
-                <div style={{ marginTop: '1rem' }}>
-                  <Typography>Shopping</Typography>
-                  <Typography color="textSecondary">$2300</Typography>
-                  <Typography>Home Decor</Typography>
-                  <Typography color="textSecondary">$3800</Typography>
-                  <Typography>Garden</Typography>
-                  <Typography color="textSecondary">$1500</Typography>
-                </div>
-              </CardContent>
-            </Card>
-          </Grid2>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <Card style={{ padding: '1.5rem' }}>
+              <Typography variant="h6" style={{ marginBottom: '1rem' }}>Latest Budgets</Typography>
+              <div>
+                {/* Latest Budget Card 1 */}
+                <Card
+                  style={{
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    padding: '1rem',
+                    backgroundColor: '#fff',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '1rem',
+                    height: '100%',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <div style={{ fontSize: '2rem', marginRight: '0.75rem' }}>🛍️</div>
+                      <div>
+                        <Typography variant="h6" style={{ margin: 0, fontWeight: '600', color: '#333' }}>
+                          Shopping
+                        </Typography>
+                      </div>
+                    </div>
+                    <Typography variant="h5" style={{ margin: 0, color: '#333' }}>$2300</Typography>
+                  </div>
+                </Card>
 
-          <Grid2 xs={12}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6">Latest Expenses</Typography>
-                {/* Table-like structure for latest expenses */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem', padding: '0.5rem 0' }}>
-                  <Typography>Name</Typography>
-                  <Typography>Amount</Typography>
-                  <Typography>Date</Typography>
-                  <Typography>Action</Typography>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
-                  <Typography>Groceries</Typography>
-                  <Typography>$120</Typography>
-                  <Typography>10/05/2023</Typography>
-                  <Typography>View</Typography>
-                </div>
-                {/* Additional rows for mock expenses can be added here */}
-              </CardContent>
+                {/* Latest Budget Card 2 */}
+                <Card
+                  style={{
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    padding: '1rem',
+                    backgroundColor: '#fff',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '1rem',
+                    height: '100%',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <div style={{ fontSize: '2rem', marginRight: '0.75rem' }}>🏠</div>
+                      <div>
+                        <Typography variant="h6" style={{ margin: 0, fontWeight: '600', color: '#333' }}>
+                          Home Decor
+                        </Typography>
+                      </div>
+                    </div>
+                    <Typography variant="h5" style={{ margin: 0, color: '#333' }}>$3800</Typography>
+                  </div>
+                </Card>
+
+                {/* Latest Budget Card 3 */}
+                <Card
+                  style={{
+                    border: '1px solid #ddd',
+                    borderRadius: '10px',
+                    padding: '1rem',
+                    backgroundColor: '#fff',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '1rem',
+                    height: '100%',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <div style={{ fontSize: '2rem', marginRight: '0.75rem' }}>🍽️</div>
+                      <div>
+                        <Typography variant="h6" style={{ margin: 0, fontWeight: '600', color: '#333' }}>
+                          Food
+                        </Typography>
+                      </div>
+                    </div>
+                    <Typography variant="h5" style={{ margin: 0, color: '#333' }}>$1500</Typography>
+                  </div>
+                </Card>
+              </div>
             </Card>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </main>
     </div>
   );

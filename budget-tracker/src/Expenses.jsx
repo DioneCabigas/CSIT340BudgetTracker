@@ -5,26 +5,6 @@ import Sidebar from "./Sidebar";
 import { useState } from "react";
 
 const Expenses = () => {
-<<<<<<< Updated upstream
-  const [expenses, setExpenses] = useState([
-    { name: "Adobobots", amount: 150, date: "20/04/2024" },
-  ]);
-  const [expenseName, setExpenseName] = useState("");
-  const [expenseAmount, setExpenseAmount] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-  const [deleteIndex, setDeleteIndex] = useState(null);
-
-  const BUDGET = 2300;
-
-  const totalItems = expenses.length; 
-  const totalSpend = expenses.reduce(
-    (sum, expense) => sum + Number(expense.amount),
-    0
-  );
-  const remainingAmount = BUDGET - totalSpend;
-=======
   const location = useLocation();
   const { budget } = location.state || {}; // Get the budget passed from Budgets.jsx
 
@@ -36,7 +16,11 @@ const Expenses = () => {
     name: "",
     amount: "",
   });
->>>>>>> Stashed changes
+
+  const [sortConfig, setSortConfig] = useState({
+    key: "amount",
+    direction: "asc",
+  });
 
   if (!budget) {
     return <div>No budget selected</div>;
@@ -74,14 +58,26 @@ const Expenses = () => {
   const remaining = budget.amount - totalSpent;
   const progressBarWidth = Math.min((totalSpent / budget.amount) * 100, 100); // Ensure it caps at 100%
 
+  const sortExpenses = (key) => {
+    const direction = sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
+    const sortedExpenses = [...expenses].sort((a, b) => {
+      if (key === "amount") {
+        return direction === "asc" ? a[key] - b[key] : b[key] - a[key];
+      } else {
+        return direction === "asc"
+          ? new Date(a[key]) - new Date(b[key])
+          : new Date(b[key]) - new Date(a[key]);
+      }
+    });
+    setExpenses(sortedExpenses);
+    setSortConfig({ key, direction });
+  };
+
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
       <Sidebar />
-<<<<<<< Updated upstream
-=======
 
       {/* Main Content */}
->>>>>>> Stashed changes
       <main style={{ flex: 1, padding: "2rem" }}>
         <div style={{ display: "flex", gap: "2rem", marginBottom: "2rem" }}>
           {/* Budget Card */}
@@ -94,25 +90,6 @@ const Expenses = () => {
               padding: "1rem",
               backgroundColor: "#fff",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-<<<<<<< Updated upstream
-              width: "100%",
-              maxWidth: "650px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-              <FaShoppingBag style={{ fontSize: "2rem", color: "#7a5cfa", marginRight: "0.75rem" }} />
-              <div>
-                <h3 style={{ margin: 0, fontSize: "1.25rem", color: "#333", fontWeight: "600" }}>Shopping</h3>
-                <p style={{ margin: 0, fontSize: "0.875rem", color: "#666" }}>
-                  {totalItems} Item{totalItems !== 1 ? "s" : ""}
-                </p>
-              </div>
-            </div>
-            <div style={{ marginBottom: "1rem" }}>
-              <h2 style={{ margin: 0, fontSize: "1.75rem", color: "#333", fontWeight: "600" }}>${BUDGET}</h2>
-            </div>
-            <div>
-=======
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
@@ -129,28 +106,19 @@ const Expenses = () => {
                   <p style={{ margin: 0, fontSize: "1rem", color: "#666" }}>{expenses.length} Items</p>
                 </div>
               </div>
-              <h2 style={{ margin: 0, fontSize: "2rem", fontWeight: "600", color: "#333" }}>
-                ${budget.amount}
-              </h2>
+              <h2 style={{ margin: 0, fontSize: "2rem", fontWeight: "600", color: "#333" }}>${budget.amount}</h2>
             </div>
             <div style={{ marginTop: "0.5rem" }}>
->>>>>>> Stashed changes
               <p
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-<<<<<<< Updated upstream
-                  fontSize: "0.875rem",
-=======
                   fontSize: "1rem",
->>>>>>> Stashed changes
                   color: "#666",
                 }}
               >
                 <span>${totalSpent} Spent</span>
-                <span style={{ color: remaining < 0 ? "red" : "green" }}>
-                  ${remaining} Remaining
-                </span>
+                <span style={{ color: remaining < 0 ? "red" : "green" }}>${remaining} Remaining</span>
               </p>
 
               <div
@@ -159,22 +127,15 @@ const Expenses = () => {
                   background: "#ddd",
                   borderRadius: "5px",
                   marginTop: "0.1rem",
-                  marginBottom: "1rem",
+                  marginBottom: "2rem",
                 }}
               >
                 <div
                   style={{
                     height: "100%",
-<<<<<<< Updated upstream
-                    width: `${(totalSpend / BUDGET) * 100}%`,
-                    backgroundColor: "#7a5cfa",
-                    borderRadius: "4px",
-                    transition: "width 0.3s ease",
-=======
                     width: `${progressBarWidth}%`,
-                    background: "#7a5cfa",
+                    background: remaining < 0 ? "red" : "green",
                     borderRadius: "5px",
->>>>>>> Stashed changes
                   }}
                 ></div>
               </div>
@@ -184,74 +145,23 @@ const Expenses = () => {
           {/* Add Expense Card */}
           <div
             style={{
-<<<<<<< Updated upstream
-              flex: 1,
-              padding: "1.5rem",
-=======
               width: "40%",
               height: "auto",
->>>>>>> Stashed changes
               border: "1px solid #ddd",
               borderRadius: "10px",
               padding: "1rem",
               backgroundColor: "#fff",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center", // Center the contents
+              justifyContent: "center", // Center the contents
             }}
           >
-<<<<<<< Updated upstream
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem", color: "#333", fontWeight: "600" }}>
-              {isEditing ? "Edit Expense" : "Add Expense"}
+            <h2 style={{ margin: 1, fontSize: "1.8rem", fontWeight: "600", color: "#333" }}>
+              Add New Expense
             </h2>
-            <input
-              type="text"
-              placeholder="Expense Name"
-              value={expenseName}
-              onChange={(e) => setExpenseName(e.target.value)}
-              style={{
-                width: "100%",
-                maxWidth: "675px",
-                marginBottom: "1rem",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-            />
-            <input
-              type="number"
-              placeholder="Expense Amount"
-              value={expenseAmount}
-              onChange={(e) => setExpenseAmount(e.target.value)}
-              style={{
-                width: "100%",
-                maxWidth: "675px",
-                marginBottom: "1rem",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-            />
-            <button
-              onClick={handleAddExpense}
-              disabled={!expenseName || !expenseAmount}
-              style={{
-                width: "100%",
-                padding: "10px",
-                backgroundColor: "#7a5cfa",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                fontWeight: "600",
-                cursor: !expenseName || !expenseAmount ? "not-allowed" : "pointer",
-                opacity: !expenseName || !expenseAmount ? 0.5 : 1,
-              }}
-            >
-              {isEditing ? "Edit Expense" : "Add New Expense"}
-            </button>
-=======
-            <h1 style={{ margin: 0, fontSize: "1.50rem", fontWeight: "600", color: "#333" }}>
-              Add Expense
-            </h1>
-            <form style={{ marginTop: "1rem" }} onSubmit={handleAddExpense}>
+            <form style={{ marginTop: "2rem", width: "100%" }} onSubmit={handleAddExpense}>
               <TextField
                 name="name"
                 label="Expense Name"
@@ -276,12 +186,14 @@ const Expenses = () => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                style={{ marginTop: "1rem" }}
+                style={{
+                  marginTop: "1rem",
+                  backgroundColor: "#2f27ce", // New button color
+                }}
               >
-                Add New Expense
+                Create Expense
               </Button>
             </form>
->>>>>>> Stashed changes
           </div>
         </div>
 
@@ -295,19 +207,35 @@ const Expenses = () => {
               width: "100%",
               borderCollapse: "collapse",
               border: "1px solid #ddd",
+              backgroundColor: "#fff",
             }}
           >
             <thead>
-              <tr style={{ backgroundColor: "#f2f2f2" }}>
-                <th style={{ padding: "10px", textAlign: "left" }}>Name</th>
-                <th style={{ padding: "10px", textAlign: "left" }}>Amount</th>
-                <th style={{ padding: "10px", textAlign: "left" }}>Date</th>
+              <tr style={{ backgroundColor: "#f1f1f1" }}>
+                <th
+                  style={{ padding: "10px", textAlign: "left", cursor: "pointer" }}
+                  onClick={() => sortExpenses("name")}
+                >
+                  Name
+                </th>
+                <th
+                  style={{ padding: "10px", textAlign: "left", cursor: "pointer" }}
+                  onClick={() => sortExpenses("amount")}
+                >
+                  Amount
+                </th>
+                <th
+                  style={{ padding: "10px", textAlign: "left", cursor: "pointer" }}
+                  onClick={() => sortExpenses("date")}
+                >
+                  Date
+                </th>
                 <th style={{ padding: "10px", textAlign: "center" }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {expenses.map((expense, index) => (
-                <tr key={index}>
+                <tr key={index} style={{ borderBottom: "1px solid #ddd" }}>
                   <td style={{ padding: "10px" }}>{expense.name}</td>
                   <td style={{ padding: "10px" }}>${expense.amount}</td>
                   <td style={{ padding: "10px" }}>{expense.date}</td>
