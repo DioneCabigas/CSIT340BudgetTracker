@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { FaShoppingBag, FaEdit, FaTrash } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
+import { Button, TextField } from "@mui/material";
 import Sidebar from "./Sidebar";
+import { useState } from "react";
 
 const Expenses = () => {
+<<<<<<< Updated upstream
   const [expenses, setExpenses] = useState([
     { name: "Adobobots", amount: 150, date: "20/04/2024" },
   ]);
@@ -21,77 +24,77 @@ const Expenses = () => {
     0
   );
   const remainingAmount = BUDGET - totalSpend;
+=======
+  const location = useLocation();
+  const { budget } = location.state || {}; // Get the budget passed from Budgets.jsx
 
-  const handleAddExpense = () => {
-    if (isEditing) {
-      const updatedExpenses = expenses.map((expense, index) =>
-        index === currentIndex
-          ? { ...expense, name: expenseName, amount: Number(expenseAmount), date: expense.date }
-          : expense
-      );
-      setExpenses(updatedExpenses);
-      setIsEditing(false);
-    } else {
-      setExpenses([
+  const [expenses, setExpenses] = useState([
+    { name: "Shirts Adidas", amount: 150, date: "20/04/2024" },
+  ]);
+
+  const [newExpense, setNewExpense] = useState({
+    name: "",
+    amount: "",
+  });
+>>>>>>> Stashed changes
+
+  if (!budget) {
+    return <div>No budget selected</div>;
+  }
+
+  const handleDeleteExpense = (index) => {
+    const updatedExpenses = expenses.filter((_, i) => i !== index);
+    setExpenses(updatedExpenses);
+  };
+
+  const handleAddExpense = (e) => {
+    e.preventDefault();
+    if (newExpense.name && newExpense.amount) {
+      const updatedExpenses = [
         ...expenses,
         {
-          name: expenseName,
-          amount: Number(expenseAmount),
+          name: newExpense.name,
+          amount: parseFloat(newExpense.amount),
           date: new Date().toLocaleDateString(),
         },
-      ]);
+      ];
+      setExpenses(updatedExpenses);
+
+      // Clear the input fields
+      setNewExpense({ name: "", amount: "" });
     }
-    setExpenseName("");
-    setExpenseAmount("");
   };
 
-  const handleDeleteExpense = () => {
-    setExpenses(expenses.filter((_, i) => i !== deleteIndex));
-    setIsDeleteConfirmOpen(false);
-    setDeleteIndex(null);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewExpense({ ...newExpense, [name]: value });
   };
 
-  const handleEditExpense = (index) => {
-    const expense = expenses[index];
-    setExpenseName(expense.name);
-    setExpenseAmount(expense.amount);
-    setIsEditing(true);
-    setCurrentIndex(index);
-  };
-
-  const openDeleteConfirmation = (index) => {
-    setDeleteIndex(index);
-    setIsDeleteConfirmOpen(true);
-  };
-
-  const closeDeleteConfirmation = () => {
-    setIsDeleteConfirmOpen(false);
-    setDeleteIndex(null);
-  };
+  const totalSpent = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const remaining = budget.amount - totalSpent;
+  const progressBarWidth = Math.min((totalSpent / budget.amount) * 100, 100); // Ensure it caps at 100%
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
       <Sidebar />
+<<<<<<< Updated upstream
+=======
+
+      {/* Main Content */}
+>>>>>>> Stashed changes
       <main style={{ flex: 1, padding: "2rem" }}>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "1.5rem",
-            justifyContent: "space-between",
-          }}
-        >
+        <div style={{ display: "flex", gap: "2rem", marginBottom: "2rem" }}>
+          {/* Budget Card */}
           <div
             style={{
-              display: "60%",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              justifyContent: "space-between",
-              padding: "1.5rem",
+              width: "60%",
+              height: "auto",
               border: "1px solid #ddd",
               borderRadius: "10px",
+              padding: "1rem",
               backgroundColor: "#fff",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+<<<<<<< Updated upstream
               width: "100%",
               maxWidth: "650px",
             }}
@@ -109,58 +112,93 @@ const Expenses = () => {
               <h2 style={{ margin: 0, fontSize: "1.75rem", color: "#333", fontWeight: "600" }}>${BUDGET}</h2>
             </div>
             <div>
+=======
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              fontSize: "1.1rem",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ fontSize: "2.5rem", marginRight: "1rem" }}>{budget.icon}</div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "600", color: "#333" }}>
+                    {budget.name}
+                  </h3>
+                  <p style={{ margin: 0, fontSize: "1rem", color: "#666" }}>{expenses.length} Items</p>
+                </div>
+              </div>
+              <h2 style={{ margin: 0, fontSize: "2rem", fontWeight: "600", color: "#333" }}>
+                ${budget.amount}
+              </h2>
+            </div>
+            <div style={{ marginTop: "0.5rem" }}>
+>>>>>>> Stashed changes
               <p
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
+<<<<<<< Updated upstream
                   fontSize: "0.875rem",
+=======
+                  fontSize: "1rem",
+>>>>>>> Stashed changes
                   color: "#666",
-                  marginBottom: "0.5rem",
                 }}
               >
-                <span>${totalSpend} Spend</span>
-                <span
-                  style={{
-                    color: remainingAmount < 0 ? "red" : "green",
-                  }}
-                >
-                  ${remainingAmount} Remaining
+                <span>${totalSpent} Spent</span>
+                <span style={{ color: remaining < 0 ? "red" : "green" }}>
+                  ${remaining} Remaining
                 </span>
               </p>
+
               <div
                 style={{
-                  height: "8px",
-                  width: "100%",
-                  backgroundColor: "#f0f0f0",
-                  borderRadius: "4px",
-                  overflow: "hidden",
+                  height: "20px",
+                  background: "#ddd",
+                  borderRadius: "5px",
+                  marginTop: "0.1rem",
+                  marginBottom: "1rem",
                 }}
               >
                 <div
                   style={{
                     height: "100%",
+<<<<<<< Updated upstream
                     width: `${(totalSpend / BUDGET) * 100}%`,
                     backgroundColor: "#7a5cfa",
                     borderRadius: "4px",
                     transition: "width 0.3s ease",
+=======
+                    width: `${progressBarWidth}%`,
+                    background: "#7a5cfa",
+                    borderRadius: "5px",
+>>>>>>> Stashed changes
                   }}
                 ></div>
               </div>
             </div>
           </div>
 
+          {/* Add Expense Card */}
           <div
             style={{
+<<<<<<< Updated upstream
               flex: 1,
               padding: "1.5rem",
+=======
+              width: "40%",
+              height: "auto",
+>>>>>>> Stashed changes
               border: "1px solid #ddd",
               borderRadius: "10px",
+              padding: "1rem",
               backgroundColor: "#fff",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              width: "100%",
-              maxWidth: "750px",
             }}
           >
+<<<<<<< Updated upstream
             <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem", color: "#333", fontWeight: "600" }}>
               {isEditing ? "Edit Expense" : "Add Expense"}
             </h2>
@@ -209,105 +247,88 @@ const Expenses = () => {
             >
               {isEditing ? "Edit Expense" : "Add New Expense"}
             </button>
+=======
+            <h1 style={{ margin: 0, fontSize: "1.50rem", fontWeight: "600", color: "#333" }}>
+              Add Expense
+            </h1>
+            <form style={{ marginTop: "1rem" }} onSubmit={handleAddExpense}>
+              <TextField
+                name="name"
+                label="Expense Name"
+                variant="outlined"
+                fullWidth
+                style={{ marginBottom: "1rem" }}
+                value={newExpense.name}
+                onChange={handleInputChange}
+              />
+              <TextField
+                name="amount"
+                label="Expense Amount"
+                variant="outlined"
+                type="number"
+                fullWidth
+                style={{ marginBottom: "1rem" }}
+                value={newExpense.amount}
+                onChange={handleInputChange}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                style={{ marginTop: "1rem" }}
+              >
+                Add New Expense
+              </Button>
+            </form>
+>>>>>>> Stashed changes
           </div>
         </div>
 
-        <h2 style={{ fontSize: "1.5rem", margin: "1.5rem 0", color: "#333", fontWeight: "600" }}>Latest Expenses</h2>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            backgroundColor: "#fff",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <thead>
-            <tr style={{ backgroundColor: "#7a5cfa", color: "#fff", textAlign: "center" }}>
-              <th style={{ padding: "10px" }}>Name</th>
-              <th style={{ padding: "10px" }}>Amount</th>
-              <th style={{ padding: "10px" }}>Date</th>
-              <th style={{ padding: "10px" }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {expenses.map((expense, index) => (
-              <tr key={index} style={{ textAlign: "center", borderBottom: "1px solid #ddd" }}>
-                <td style={{ padding: "10px" }}>{expense.name}</td>
-                <td style={{ padding: "10px" }}>{expense.amount}</td>
-                <td style={{ padding: "10px" }}>{expense.date}</td>
-                <td style={{ padding: "10px" }}>
-                  <button
-                    onClick={() => handleEditExpense(index)}
-                    style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}
-                  >
-                    <FaEdit />
-                  </button>
-                  <button
-                    onClick={() => openDeleteConfirmation(index)}
-                    style={{ background: "none", border: "none", color: "red", cursor: "pointer" }}
-                  >
-                    <FaTrash />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {isDeleteConfirmOpen && (
-          <div
+        {/* Expenses Table */}
+        <div>
+          <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#333", marginBottom: "1rem" }}>
+            Latest Expenses
+          </h3>
+          <table
             style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              width: "100%",
+              borderCollapse: "collapse",
+              border: "1px solid #ddd",
             }}
           >
-            <div
-              style={{
-                backgroundColor: "#fff",
-                padding: "2rem",
-                borderRadius: "5px",
-                textAlign: "center",
-                width: "300px",
-              }}
-            >
-              <h3 style={{ margin: 0, fontSize: "1.25rem", color: "#333" }}>Are you sure you want to delete this expense?</h3>
-              <div style={{ marginTop: "1rem" }}>
-                <button
-                  onClick={handleDeleteExpense}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "red",
-                    color: "white",
-                    padding: "0.5rem 1rem",
-                    border: "none",
-                    borderRadius: "5px",
-                  }}
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={closeDeleteConfirmation}
-                  style={{
-                    backgroundColor: "#ddd",
-                    color: "black",
-                    padding: "0.5rem 1rem",
-                    border: "none",
-                    borderRadius: "5px",
-                  }}
-                >
-                  No
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+            <thead>
+              <tr style={{ backgroundColor: "#f2f2f2" }}>
+                <th style={{ padding: "10px", textAlign: "left" }}>Name</th>
+                <th style={{ padding: "10px", textAlign: "left" }}>Amount</th>
+                <th style={{ padding: "10px", textAlign: "left" }}>Date</th>
+                <th style={{ padding: "10px", textAlign: "center" }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {expenses.map((expense, index) => (
+                <tr key={index}>
+                  <td style={{ padding: "10px" }}>{expense.name}</td>
+                  <td style={{ padding: "10px" }}>${expense.amount}</td>
+                  <td style={{ padding: "10px" }}>{expense.date}</td>
+                  <td style={{ padding: "10px", textAlign: "center" }}>
+                    <button
+                      onClick={() => handleDeleteExpense(index)}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "red",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </main>
     </div>
   );
