@@ -74,18 +74,27 @@ const Budgets = () => {
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
       <Sidebar />
       <main style={{ flex: 1, padding: "2rem" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "1.5rem",
+            paddingBottom: "2rem", // Adjust padding for the grid
+          }}
+        >
           <div
             onClick={() => setIsModalOpen(true)}
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              minHeight: "150px",
+              height: "200px", // Set height to 200px
+              width: "100%",   // Ensure it's full width
               border: "2px dashed #ddd",
               borderRadius: "10px",
               backgroundColor: "#fff",
               cursor: "pointer",
+              boxSizing: "border-box", // Ensure padding and borders don't affect the size
             }}
           >
             + Create New Budget
@@ -107,7 +116,9 @@ const Budgets = () => {
                   flexDirection: "column",
                   justifyContent: "space-between",
                   cursor: "pointer",
-                  height: "100%",
+                  height: "200px", // Set height to 200px for cards
+                  width: "100%",   // Ensure it's full width
+                  boxSizing: "border-box", // Ensure padding and borders don't affect the size
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
