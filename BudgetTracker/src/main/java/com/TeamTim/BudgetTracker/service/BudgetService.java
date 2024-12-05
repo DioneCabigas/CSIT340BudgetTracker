@@ -1,10 +1,11 @@
 package com.TeamTim.BudgetTracker.service;
 
+import com.TeamTim.BudgetTracker.entity.BudgetEntity;
+import com.TeamTim.BudgetTracker.entity.UserEntity;
+import com.TeamTim.BudgetTracker.repository.BudgetRepository;
+import com.TeamTim.BudgetTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.TeamTim.BudgetTracker.entity.BudgetEntity;
-import com.TeamTim.BudgetTracker.repository.BudgetRepository;
 
 import java.util.List;
 
@@ -12,21 +13,34 @@ import java.util.List;
 public class BudgetService {
 
     @Autowired
-    BudgetRepository budgetRepository;
+    private BudgetRepository budgetRepository;
 
-    public BudgetService() {
-        super();
-    }
+    @Autowired
+    private UserRepository userRepository;
 
-    public BudgetEntity postBudgetRecord(BudgetEntity budget) {
+    // Create a new budget
+    public BudgetEntity createBudget(BudgetEntity budget) {
         return budgetRepository.save(budget);
     }
 
-    public List<BudgetEntity> getAllBudgets() {
-        return budgetRepository.findAll();
+    // Get all budgets for a specific user
+    public List<BudgetEntity> getBudgetsByUser(Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        return budgetRepository.findByUser(user);
     }
 
-    public List<BudgetEntity> getBudgetsByUserId(int userId) {
-        return budgetRepository.findByUserUserId(userId);
+    // Get a budget by name
+    public BudgetEntity getBudgetByName(String budgetName) {
+        return budgetRepository.findById(budgetName)
+                .orElseThrow(() -> new RuntimeException("Budget not found with name: " + budgetName));
+    }
+
+    // Delete a budget by name
+    public void deleteBudget(String budgetName) {
+        if (!budgetRepository.existsById(budgetName)) {
+            throw new RuntimeException("Budget not found with name: " + budgetName);
+        }
+        budgetRepository.deleteById(budgetName);
     }
 }

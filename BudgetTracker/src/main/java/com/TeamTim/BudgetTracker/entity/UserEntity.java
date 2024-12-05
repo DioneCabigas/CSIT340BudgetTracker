@@ -1,51 +1,36 @@
 package com.TeamTim.BudgetTracker.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "user")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
-    private String name;
+    private Long userId; // Primary Key
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
-    private LocalDate dateAccountCreated;
-    private String profileInformation;
 
-    public UserEntity() {
-        super();
-    }
+    @Column(nullable = false, unique = true)
+    private String username;
 
-    public UserEntity(int userId, String name, String email, String password, LocalDate dateAccountCreated, String profileInformation) {
-        super();
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.dateAccountCreated = dateAccountCreated;
-        this.profileInformation = profileInformation;
-    }
+    // One User can have multiple Budgets
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BudgetEntity> budgets;
 
-    public int getUserId() {
+    // Getters and Setters
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -64,20 +49,19 @@ public class UserEntity {
         this.password = password;
     }
 
-    public LocalDate getDateAccountCreated() {
-        return dateAccountCreated;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDateAccountCreated(LocalDate dateAccountCreated) {
-        this.dateAccountCreated = dateAccountCreated;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getProfileInformation() {
-        return profileInformation;
+    public List<BudgetEntity> getBudgets() {
+        return budgets;
     }
 
-    public void setProfileInformation(String profileInformation) {
-        this.profileInformation = profileInformation;
+    public void setBudgets(List<BudgetEntity> budgets) {
+        this.budgets = budgets;
     }
 }
-

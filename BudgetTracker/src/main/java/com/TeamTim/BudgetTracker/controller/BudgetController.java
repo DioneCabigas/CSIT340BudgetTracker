@@ -1,33 +1,45 @@
 package com.TeamTim.BudgetTracker.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.TeamTim.BudgetTracker.entity.BudgetEntity;
 import com.TeamTim.BudgetTracker.service.BudgetService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(method = RequestMethod.GET, path = "/api/budget")
+@RequestMapping("/api/budgets")
 public class BudgetController {
 
     @Autowired
-    BudgetService budgetService;
+    private BudgetService budgetService;
 
-    @PostMapping("/postBudgetRecord")
-    public BudgetEntity postBudgetRecord(@RequestBody BudgetEntity budget) {
-        return budgetService.postBudgetRecord(budget);
+    // Create a new budget
+    @PostMapping
+    public ResponseEntity<BudgetEntity> createBudget(@RequestBody BudgetEntity budget) {
+        BudgetEntity createdBudget = budgetService.createBudget(budget);
+        return ResponseEntity.ok(createdBudget);
     }
 
-    @GetMapping("/getAllBudgets")
-    public List<BudgetEntity> getAllBudgets() {
-        return budgetService.getAllBudgets();
+    // Get all budgets for a user
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BudgetEntity>> getBudgetsByUser(@PathVariable Long userId) {
+        List<BudgetEntity> budgets = budgetService.getBudgetsByUser(userId);
+        return ResponseEntity.ok(budgets);
     }
 
-    @GetMapping("/getBudgetsByUserId/{userId}")
-    public List<BudgetEntity> getBudgetsByUserId(@PathVariable int userId) {
-        return budgetService.getBudgetsByUserId(userId);
+    // Get budget by name
+    @GetMapping("/{budgetName}")
+    public ResponseEntity<BudgetEntity> getBudgetByName(@PathVariable String budgetName) {
+        BudgetEntity budget = budgetService.getBudgetByName(budgetName);
+        return ResponseEntity.ok(budget);
+    }
+
+    // Delete budget by name
+    @DeleteMapping("/{budgetName}")
+    public ResponseEntity<Void> deleteBudget(@PathVariable String budgetName) {
+        budgetService.deleteBudget(budgetName);
+        return ResponseEntity.noContent().build();
     }
 }
-
