@@ -8,17 +8,32 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Check if the email and password match the test credentials
-    if (email === 'test@test.com' && password === 'test') {
-      console.log("Login successful!");
-      navigate('/dashboard'); // Redirect to the dashboard
-    } else {
-      console.log("Invalid credentials");
+  
+    try {
+      const response = await fetch('http://localhost:8080/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      // Check if the response is successful
+      if (response.ok) {
+        const data = await response.json(); // Parse the JSON response
+        console.log(data.message);  // Login successful or invalid credentials message
+        navigate('/dashboard'); // Redirect to the dashboard on success
+      } else {
+        const errorData = await response.json();
+        console.log(errorData.message); // Display error message (e.g., invalid credentials)
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
     }
   };
+  
 
   return (
     <div className="login-container">

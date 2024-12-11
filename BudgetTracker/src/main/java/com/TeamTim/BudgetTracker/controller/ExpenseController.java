@@ -3,36 +3,38 @@ package com.TeamTim.BudgetTracker.controller;
 import com.TeamTim.BudgetTracker.entity.ExpenseEntity;
 import com.TeamTim.BudgetTracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/expenses")
+@RequestMapping("/api/expense")
 public class ExpenseController {
 
     @Autowired
     private ExpenseService expenseService;
 
-    // Create a new expense
-    @PostMapping
-    public ResponseEntity<ExpenseEntity> createExpense(@RequestBody ExpenseEntity expense) {
-        ExpenseEntity createdExpense = expenseService.createExpense(expense);
-        return ResponseEntity.ok(createdExpense);
+    // Create or update an expense record
+    @PostMapping("/postexpenserecord")
+    public ExpenseEntity postExpenseRecord(@RequestBody ExpenseEntity expense) {
+        return expenseService.postExpenseRecord(expense);
     }
 
-    // Get all expenses for a budget
-    @GetMapping("/budget/{budgetName}")
-    public ResponseEntity<List<ExpenseEntity>> getExpensesByBudget(@PathVariable String budgetName) {
-        List<ExpenseEntity> expenses = expenseService.getExpensesByBudget(budgetName);
-        return ResponseEntity.ok(expenses);
+    // Read all expenses
+    @GetMapping("/getAllExpenses")
+    public List<ExpenseEntity> getAllExpenses() {
+        return expenseService.getAllExpenses();
     }
 
-    // Delete expense by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
-        expenseService.deleteExpense(id);
-        return ResponseEntity.noContent().build();
+    // Read expenses by expense name
+    @GetMapping("/getExpensesByName")
+    public List<ExpenseEntity> getExpensesByName(@RequestParam String expenseName) {
+        return expenseService.getExpensesByName(expenseName);
+    }
+
+    // Read expenses by budget name
+    @GetMapping("/getExpensesByBudgetName")
+    public List<ExpenseEntity> getExpensesByBudgetName(@RequestParam String budgetName) {
+        return expenseService.getExpensesByBudgetName(budgetName);
     }
 }

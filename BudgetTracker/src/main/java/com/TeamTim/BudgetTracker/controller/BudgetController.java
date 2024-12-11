@@ -3,43 +3,38 @@ package com.TeamTim.BudgetTracker.controller;
 import com.TeamTim.BudgetTracker.entity.BudgetEntity;
 import com.TeamTim.BudgetTracker.service.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/budgets")
+@RequestMapping("/api/budget")
 public class BudgetController {
 
     @Autowired
     private BudgetService budgetService;
 
-    // Create a new budget
-    @PostMapping
-    public ResponseEntity<BudgetEntity> createBudget(@RequestBody BudgetEntity budget) {
-        BudgetEntity createdBudget = budgetService.createBudget(budget);
-        return ResponseEntity.ok(createdBudget);
+    // Create or update a budget record
+    @PostMapping("/postbudgetrecord")
+    public BudgetEntity postBudgetRecord(@RequestBody BudgetEntity budget) {
+        return budgetService.postBudgetRecord(budget);
     }
 
-    // Get all budgets for a user
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BudgetEntity>> getBudgetsByUser(@PathVariable Long userId) {
-        List<BudgetEntity> budgets = budgetService.getBudgetsByUser(userId);
-        return ResponseEntity.ok(budgets);
+    // Read all budgets
+    @GetMapping("/getAllBudgets")
+    public List<BudgetEntity> getAllBudgets() {
+        return budgetService.getAllBudgets();
     }
 
-    // Get budget by name
-    @GetMapping("/{budgetName}")
-    public ResponseEntity<BudgetEntity> getBudgetByName(@PathVariable String budgetName) {
-        BudgetEntity budget = budgetService.getBudgetByName(budgetName);
-        return ResponseEntity.ok(budget);
+    // Read budget by budget name
+    @GetMapping("/getBudgetByName")
+    public BudgetEntity getBudgetByName(@RequestParam String budgetName) {
+        return budgetService.getBudgetByName(budgetName);
     }
 
-    // Delete budget by name
-    @DeleteMapping("/{budgetName}")
-    public ResponseEntity<Void> deleteBudget(@PathVariable String budgetName) {
-        budgetService.deleteBudget(budgetName);
-        return ResponseEntity.noContent().build();
+    // Read budgets by user ID
+    @GetMapping("/getBudgetsByUserId")
+    public List<BudgetEntity> getBudgetsByUserId(@RequestParam int userId) {
+        return budgetService.getBudgetsByUserId(userId);
     }
 }

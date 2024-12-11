@@ -1,29 +1,42 @@
 package com.TeamTim.BudgetTracker.entity;
 
-import jakarta.persistence.*;
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "budget")
+@Table(name = "BUDGET")
 public class BudgetEntity {
 
     @Id
-    @Column(nullable = false, unique = true)
-    private String budgetName; // Primary Key
+    @Column(name = "budget_name")
+    private String budgetName;
 
-    @Column(nullable = false)
-    private Double budgetAmountAllocated;
+    @Column(name = "budget_amount_allocated")
+    private double budgetAmountAllocated;
 
-    // Many Budgets belong to one User
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
-    // One Budget can have multiple Expenses
-    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExpenseEntity> expenses;
+    @Column(name = "icon")
+    private String icon;
 
-    // Getters and Setters
+    public BudgetEntity() {
+        super();
+    }
+
+    public BudgetEntity(String budgetName, double budgetAmountAllocated, UserEntity user, String icon) {
+        super();
+        this.budgetName = budgetName;
+        this.budgetAmountAllocated = budgetAmountAllocated;
+        this.user = user;
+        this.icon = icon;
+    }
+
     public String getBudgetName() {
         return budgetName;
     }
@@ -32,11 +45,11 @@ public class BudgetEntity {
         this.budgetName = budgetName;
     }
 
-    public Double getBudgetAmountAllocated() {
+    public double getBudgetAmountAllocated() {
         return budgetAmountAllocated;
     }
 
-    public void setBudgetAmountAllocated(Double budgetAmountAllocated) {
+    public void setBudgetAmountAllocated(double budgetAmountAllocated) {
         this.budgetAmountAllocated = budgetAmountAllocated;
     }
 
@@ -48,11 +61,11 @@ public class BudgetEntity {
         this.user = user;
     }
 
-    public List<ExpenseEntity> getExpenses() {
-        return expenses;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setExpenses(List<ExpenseEntity> expenses) {
-        this.expenses = expenses;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

@@ -1,36 +1,56 @@
 package com.TeamTim.BudgetTracker.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "expense")
+@Table(name = "EXPENSE")
 public class ExpenseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long expenseId; // Primary Key
+    @Column(name = "expense_id")
+    private int expenseId;
 
-    @Column(nullable = false)
+    @Column(name = "expense_name")
     private String expenseName;
 
-    @Column(nullable = false)
-    private Double expenseAmountSpent;
+    @Column(name = "expense_amount_spent")
+    private double expenseAmountSpent;
 
-    @Column(nullable = false)
-    private LocalDate expenseDateCreated;
+    @Column(name = "expense_date_created")
+    private Date expenseDateCreated;
 
-    // Many Expenses belong to one Budget
     @ManyToOne
-    @JoinColumn(name = "budget_name", nullable = false)
+    @JoinColumn(name = "budget_name", referencedColumnName = "budget_name")
     private BudgetEntity budget;
 
-    // Getters and Setters
-    public Long getExpenseId() {
+    public ExpenseEntity() {
+        super();
+    }
+
+    public ExpenseEntity(int expenseId, String expenseName, double expenseAmountSpent, Date expenseDateCreated, BudgetEntity budget) {
+        super();
+        this.expenseId = expenseId;
+        this.expenseName = expenseName;
+        this.expenseAmountSpent = expenseAmountSpent;
+        this.expenseDateCreated = expenseDateCreated;
+        this.budget = budget;
+    }
+
+    public int getExpenseId() {
         return expenseId;
     }
 
-    public void setExpenseId(Long expenseId) {
+    public void setExpenseId(int expenseId) {
         this.expenseId = expenseId;
     }
 
@@ -42,19 +62,19 @@ public class ExpenseEntity {
         this.expenseName = expenseName;
     }
 
-    public Double getExpenseAmountSpent() {
+    public double getExpenseAmountSpent() {
         return expenseAmountSpent;
     }
 
-    public void setExpenseAmountSpent(Double expenseAmountSpent) {
+    public void setExpenseAmountSpent(double expenseAmountSpent) {
         this.expenseAmountSpent = expenseAmountSpent;
     }
 
-    public LocalDate getExpenseDateCreated() {
+    public Date getExpenseDateCreated() {
         return expenseDateCreated;
     }
 
-    public void setExpenseDateCreated(LocalDate expenseDateCreated) {
+    public void setExpenseDateCreated(Date expenseDateCreated) {
         this.expenseDateCreated = expenseDateCreated;
     }
 

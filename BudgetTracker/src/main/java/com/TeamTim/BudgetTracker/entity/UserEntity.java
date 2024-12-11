@@ -1,35 +1,52 @@
 package com.TeamTim.BudgetTracker.entity;
 
-import jakarta.persistence.*;
-import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId; // Primary Key
+    @Column(name = "user_id")
+    private int userId;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email")
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "username")
     private String username;
 
-    // One User can have multiple Budgets
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BudgetEntity> budgets;
+    @Column(name = "profile_picture")
+    private String profilePicture;
 
-    // Getters and Setters
-    public Long getUserId() {
+    public UserEntity() {
+        super();
+    }
+
+    public UserEntity(int userId, String email, String password, String username, String profilePicture) {
+        super();
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.profilePicture = profilePicture;
+    }
+
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -57,11 +74,11 @@ public class UserEntity {
         this.username = username;
     }
 
-    public List<BudgetEntity> getBudgets() {
-        return budgets;
+    public String getProfilePicture() {
+        return profilePicture;
     }
 
-    public void setBudgets(List<BudgetEntity> budgets) {
-        this.budgets = budgets;
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
