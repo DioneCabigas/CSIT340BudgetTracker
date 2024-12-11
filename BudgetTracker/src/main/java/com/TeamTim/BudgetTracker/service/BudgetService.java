@@ -1,7 +1,9 @@
 package com.TeamTim.BudgetTracker.service;
 
 import com.TeamTim.BudgetTracker.entity.BudgetEntity;
+import com.TeamTim.BudgetTracker.entity.UserEntity;
 import com.TeamTim.BudgetTracker.repository.BudgetRepository;
+import com.TeamTim.BudgetTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,27 +15,30 @@ public class BudgetService {
     @Autowired
     private BudgetRepository budgetRepository;
 
-    public BudgetService() {
-        super();
-    }
+    @Autowired
+    private UserRepository userRepository;  // Inject UserRepository
 
-    // Create or update a budget record
-    public BudgetEntity postBudgetRecord(BudgetEntity budget) {
-        return budgetRepository.save(budget);
-    }
-
-    // Read all budgets
+    // Fetch all budgets
     public List<BudgetEntity> getAllBudgets() {
-        return budgetRepository.findAll();
+        return budgetRepository.findAll();  // This will fetch all budgets from the DB
     }
 
-    // Read budget by budget name
-    public BudgetEntity getBudgetByName(String budgetName) {
-        return budgetRepository.findByBudgetName(budgetName);
+    public BudgetEntity createBudget(BudgetEntity budget) {
+        // Fetch user by userId 1
+        UserEntity user = userRepository.findById(1).orElse(null); // user_id 1
+        if (user != null) {
+            budget.setUser(user);  // Set the user for the budget
+        } else {
+            throw new RuntimeException("User not found");
+        }
+
+        return budgetRepository.save(budget);  // Save the budget with the user associated
     }
 
-    // Read budgets by user ID
-    public List<BudgetEntity> getBudgetsByUserId(int userId) {
-        return budgetRepository.findByUser_UserId(userId);
+    public void deleteBudget(String budgetName) {
+        BudgetEntity budget = budgetRepository.findByBudgetName(budgetName);
+        if (budget != null) {
+            budgetRepository.delete(budget);
+        }
     }
 }

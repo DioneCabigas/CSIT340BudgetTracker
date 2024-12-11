@@ -14,27 +14,25 @@ public class BudgetController {
     @Autowired
     private BudgetService budgetService;
 
-    // Create or update a budget record
-    @PostMapping("/postbudgetrecord")
-    public BudgetEntity postBudgetRecord(@RequestBody BudgetEntity budget) {
-        return budgetService.postBudgetRecord(budget);
-    }
-
-    // Read all budgets
-    @GetMapping("/getAllBudgets")
+    // GET all budgets
+    @GetMapping
     public List<BudgetEntity> getAllBudgets() {
-        return budgetService.getAllBudgets();
+        List<BudgetEntity> budgets = budgetService.getAllBudgets();
+        if (budgets.isEmpty()) {
+            throw new RuntimeException("No budgets found");
+        }
+        return budgets;
     }
 
-    // Read budget by budget name
-    @GetMapping("/getBudgetByName")
-    public BudgetEntity getBudgetByName(@RequestParam String budgetName) {
-        return budgetService.getBudgetByName(budgetName);
+    // POST create new budget
+    @PostMapping
+    public BudgetEntity createBudget(@RequestBody BudgetEntity budget) {
+        return budgetService.createBudget(budget);
     }
 
-    // Read budgets by user ID
-    @GetMapping("/getBudgetsByUserId")
-    public List<BudgetEntity> getBudgetsByUserId(@RequestParam int userId) {
-        return budgetService.getBudgetsByUserId(userId);
+    // DELETE budget by budgetName
+    @DeleteMapping("/{budgetName}")
+    public void deleteBudget(@PathVariable String budgetName) {
+        budgetService.deleteBudget(budgetName);
     }
 }
