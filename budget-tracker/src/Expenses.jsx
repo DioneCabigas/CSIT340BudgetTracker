@@ -267,25 +267,59 @@ function Expenses() {
         >
           <thead>
             <tr style={{ backgroundColor: '#f4f4f4', textAlign: 'left' }}>
-              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Name</th>
-              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Amount</th>
-              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Date</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Name</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Amount</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd' }}>Date</th>
+              <th style={{ padding: '12px', border: '1px solid #ddd', textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {expenses.length > 0 ? (
               expenses.map((expense, index) => (
                 <tr key={index}>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{expense.expenseName}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>${expense.expenseAmountSpent}</td>
-                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>
+                  <td style={{ padding: '12px', border: '1px solid #ddd' }}>{expense.expenseName}</td>
+                  <td style={{ padding: '12px', border: '1px solid #ddd' }}>${expense.expenseAmountSpent}</td>
+                  <td style={{ padding: '12px', border: '1px solid #ddd' }}>
                     {new Date(expense.expenseDateCreated).toLocaleDateString()}
+                  </td>
+                  <td
+                    style={{
+                      padding: '12px',
+                      border: '1px solid #ddd',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        backgroundColor: '#ffc107',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        marginRight: '5px',
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      style={{
+                        padding: '5px 10px',
+                        backgroundColor: '#dc3545',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="3" style={{ textAlign: 'center', padding: '10px' }}>
+                <td colSpan="4" style={{ textAlign: 'center', padding: '12px' }}>
                   No expenses yet.
                 </td>
               </tr>
