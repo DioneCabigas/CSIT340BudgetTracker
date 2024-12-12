@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
-function Expense() {
+function Expenses() {
+  const { state } = useLocation();
+  const [expenseName, setExpenseName] = useState('');
+  const [expenseAmount, setExpenseAmount] = useState('');
+  const [expenseDate, setExpenseDate] = useState('');
   const [expenses, setExpenses] = useState([]);
-  const location = useLocation();
-  const { budget } = location.state || {}; // Get the budget passed from Budgets.jsx
+  const navigate = useNavigate();
 
-  // Fetch expenses for the budget
+  const budget = state?.budget;
+
+  useEffect(() => {
+    if (budget) {
+      fetchExpenses(budget.budgetName);
+    }
+  }, [budget]);
+
   const fetchExpenses = async (budgetName) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/expense/getExpensesByBudgetName?budgetName=${budgetName}`);
+      const response = await fetch(
+        `http://localhost:8080/api/expense/getExpensesByBudgetName?budgetName=${budgetName}`
+      );
       const data = await response.json();
       setExpenses(data);
     } catch (error) {
@@ -18,48 +30,237 @@ function Expense() {
     }
   };
 
-  // Default to the first budget if no budget is selected
-  useEffect(() => {
-    if (!budget) {
-      fetchExpenses('First Budget Name'); // Replace 'First Budget Name' with actual first budget name
-    } else {
-      fetchExpenses(budget.budgetName);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newExpense = {
+      expenseName,
+      expenseAmountSpent: expenseAmount,
+      expenseDateCreated: expenseDate,
+      budget: { budgetName: budget.budgetName },
+    };
+
+    try {
+      const response = await fetch(
+        'http://localhost:8080/api/expense/postexpenserecord',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newExpense),
+        }
+      );
+
+      if (response.ok) {
+        setExpenseName('');
+        setExpenseAmount('');
+        setExpenseDate('');
+        fetchExpenses(budget.budgetName);
+      } else {
+        console.error('Failed to create expense');
+      }
+    } catch (error) {
+      console.error('Error creating expense:', error);
     }
-  }, [budget]);
+  };
+
+  const handleEditBudget = () => {
+    // Logic for editing the budget
+    console.log('Edit budget:', budget);
+  };
+
+  const handleDeleteBudget = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/budget/delete?budgetName=${budget.budgetName}`,
+        { method: 'DELETE' }
+      );
+
+      if (response.ok) {
+        navigate('/budgets'); // Navigate back to budgets list after deletion
+      } else {
+        console.error('Failed to delete budget');
+      }
+    } catch (error) {
+      console.error('Error deleting budget:', error);
+    }
+  };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
       <Sidebar />
-      <div style={{ flex: 1, padding: '20px' }}>
-        <h2>Expenses for {budget?.budgetName || 'First Budget'}</h2>
-
-        {/* Display Budget Icon, Name, and Allocation */}
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          <span style={{ fontSize: '30px', marginRight: '20px' }}>{budget?.icon || '🛍️'}</span>
+      <div style={{ flex: 1, padding: '2rem' }}>
+        <div
+          style={{
+            backgroundColor: '#fff',
+            padding: '1.5rem',
+            marginBottom: '1.5rem',
+            borderRadius: '8px',
+            border: '1px solid #ddd',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <div>
-            <h3>{budget?.budgetName || 'First Budget'}</h3>
-            <p>Allocation: ${budget?.budgetAmountAllocated || 0}</p>
+            <h1 style={{ margin: 0 }}>Expenses for {budget ? budget.budgetName : 'Loading...'}</h1>
+            <p style={{ margin: '0.5rem 0' }}>Manage and track your expenses here.</p>
+          </div>
+          <div>
+            <button
+              onClick={handleEditBudget}
+              style={{
+                padding: '10px 15px',
+                marginRight: '10px',
+                backgroundColor: '#ffc107',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+              }}
+            >
+              Edit
+            </button>
+            <button
+              onClick={handleDeleteBudget}
+              style={{
+                padding: '10px 15px',
+                backgroundColor: '#dc3545',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+              }}
+            >
+              Delete
+            </button>
           </div>
         </div>
 
-        {/* Display Expenses List */}
-        <div>
-          <h3>Your Expenses</h3>
-          {expenses.length > 0 ? (
-            <ul>
-              {expenses.map((expense, index) => (
-                <li key={index}>
-                  {expense.expenseName}: ${expense.expenseAmount}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No expenses for this budget yet.</p>
-          )}
+        <div
+          style={{
+            padding: '1.5rem',
+            borderRadius: '8px',
+            border: '1px solid #ddd',
+            marginBottom: '1rem',
+          }}
+        >
+          <h2 style={{ fontSize: '18px', margin: '0 0 1rem 0' }}>Add a New Expense</h2>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: '0.8rem' }}>
+              <label style={{ fontWeight: 'bold', fontSize: '14px' }}>Expense Name</label>
+              <input
+                type="text"
+                value={expenseName}
+                onChange={(e) => setExpenseName(e.target.value)}
+                style={{
+                  width: '98.5%',
+                  padding: '8px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  marginTop: '5px',
+                  fontSize: '14px',
+                }}
+                required
+              />
+            </div>
+
+            <div style={{ marginBottom: '0.8rem' }}>
+              <label style={{ fontWeight: 'bold', fontSize: '14px' }}>Expense Amount</label>
+              <input
+                type="number"
+                value={expenseAmount}
+                onChange={(e) => setExpenseAmount(e.target.value)}
+                style={{
+                  width: '98.5%',
+                  padding: '8px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  marginTop: '5px',
+                  fontSize: '14px',
+                }}
+                required
+              />
+            </div>
+
+            <div style={{ marginBottom: '0.8rem' }}>
+              <label style={{ fontWeight: 'bold', fontSize: '14px' }}>Expense Date</label>
+              <input
+                type="date"
+                value={expenseDate}
+                onChange={(e) => setExpenseDate(e.target.value)}
+                style={{
+                  width: '98.5%',
+                  padding: '8px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  marginTop: '5px',
+                  fontSize: '14px',
+                }}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              style={{
+                width: '100%',
+                padding: '10px',
+                backgroundColor: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}
+            >
+              Add Expense
+            </button>
+          </form>
         </div>
+
+        <h3 style={{ marginBottom: '1rem' }}>Your Expenses</h3>
+        <table
+          style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            marginBottom: '2rem',
+            backgroundColor: '#fff',
+            borderRadius: '8px',
+            border: '1px solid #ddd',
+          }}
+        >
+          <thead>
+            <tr style={{ backgroundColor: '#f4f4f4', textAlign: 'left' }}>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Name</th>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Amount</th>
+              <th style={{ padding: '10px', border: '1px solid #ddd' }}>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenses.length > 0 ? (
+              expenses.map((expense, index) => (
+                <tr key={index}>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{expense.expenseName}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>${expense.expenseAmountSpent}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>
+                    {new Date(expense.expenseDateCreated).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3" style={{ textAlign: 'center', padding: '10px' }}>
+                  No expenses yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 }
 
-export default Expense;
+export default Expenses;
