@@ -13,10 +13,6 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    public ExpenseService() {
-        super();
-    }
-
     // Create or update an expense record
     public ExpenseEntity postExpenseRecord(ExpenseEntity expense) {
         return expenseRepository.save(expense);
@@ -27,10 +23,14 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    // Read expenses by expense name
-    public List<ExpenseEntity> getExpensesByName(String expenseName) {
-        return expenseRepository.findByExpenseName(expenseName);
+    public boolean deleteExpense(int id) {
+        if (expenseRepository.existsById(id)) {
+            expenseRepository.deleteById(id);
+            return true; // Expense deleted successfully
+        }
+        return false; // Expense not found
     }
+    
 
     // Read expenses by budget name
     public List<ExpenseEntity> getExpensesByBudgetName(String budgetName) {

@@ -3,6 +3,8 @@ package com.TeamTim.BudgetTracker.controller;
 import com.TeamTim.BudgetTracker.entity.ExpenseEntity;
 import com.TeamTim.BudgetTracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +28,16 @@ public class ExpenseController {
         return expenseService.getAllExpenses();
     }
 
-    // Read expenses by expense name
-    @GetMapping("/getExpensesByName")
-    public List<ExpenseEntity> getExpensesByName(@RequestParam String expenseName) {
-        return expenseService.getExpensesByName(expenseName);
-    }
+    @DeleteMapping("/deleteExpense/{id}")
+    public ResponseEntity<Void> deleteExpense(@PathVariable int id) {
+        boolean isDeleted = expenseService.deleteExpense(id);
+        if (isDeleted) {
+            return ResponseEntity.ok().build(); // 200 OK if deleted
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 if not found
+        }
+}
+
 
     // Read expenses by budget name
     @GetMapping("/getExpensesByBudgetName")

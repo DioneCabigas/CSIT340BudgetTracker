@@ -64,35 +64,20 @@ function Expenses() {
     }
   };
 
-  const handleEditBudget = async () => {
-    const updatedBudgetName = prompt('Enter the new budget name:', budget.budgetName);
-    const updatedBudgetAllocated = prompt(
-      'Enter the new allocated amount:',
-      budget.budgetAllocated
-    );
+  const handleDeleteExpense = async (expenseId) => {
+    console.log('Expense ID:', expenseId);  // For debugging, log the ID to the console
+    try {
+      const response = await fetch(`http://localhost:8080/api/expense/deleteExpense/${expenseId}`, {
+        method: 'DELETE',
+      });
 
-    if (updatedBudgetName && updatedBudgetAllocated) {
-      try {
-        const response = await fetch('http://localhost:8080/api/budget/update', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            oldBudgetName: budget.budgetName,
-            newBudgetName: updatedBudgetName,
-            newBudgetAllocated: updatedBudgetAllocated,
-          }),
-        });
-
-        if (response.ok) {
-          navigate('/budgets');
-        } else {
-          console.error('Failed to update budget');
-        }
-      } catch (error) {
-        console.error('Error updating budget:', error);
+      if (response.ok) {
+        setExpenses(expenses.filter((expense) => expense.expenseId !== expenseId));  // Use expenseId here
+      } else {
+        console.error('Failed to delete expense');
       }
+    } catch (error) {
+      console.error('Error deleting expense:', error);
     }
   };
 
@@ -100,12 +85,14 @@ function Expenses() {
     if (window.confirm('Are you sure you want to delete this budget?')) {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/budget/delete?budgetName=${budget.budgetName}`,
-          { method: 'DELETE' }
+          `http://localhost:8080/api/budget/${budget.budgetName}`,
+          {
+            method: 'DELETE',
+          }
         );
 
         if (response.ok) {
-          navigate('/budgets');
+          navigate('/budgets'); // Redirect to the list of budgets after deletion
         } else {
           console.error('Failed to delete budget');
         }
@@ -142,20 +129,6 @@ function Expenses() {
             </div>
           </div>
           <div>
-            <button
-              onClick={handleEditBudget}
-              style={{
-                padding: '10px 15px',
-                marginRight: '10px',
-                backgroundColor: '#ffc107',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-              }}
-            >
-              Edit
-            </button>
             <button
               onClick={handleDeleteBudget}
               style={{
@@ -282,29 +255,11 @@ function Expenses() {
                   <td style={{ padding: '12px', border: '1px solid #ddd' }}>
                     {new Date(expense.expenseDateCreated).toLocaleDateString()}
                   </td>
-                  <td
-                    style={{
-                      padding: '12px',
-                      border: '1px solid #ddd',
-                      textAlign: 'center',
-                    }}
-                  >
+                  <td style={{ padding: '12px', border: '1px solid #ddd', textAlign: 'center' }}>
                     <button
+                      onClick={() => handleDeleteExpense(expense.expenseId)}  // Use expense.expenseId here
                       style={{
-                        padding: '5px 10px',
-                        backgroundColor: '#ffc107',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        marginRight: '5px',
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      style={{
-                        padding: '5px 10px',
+                        padding: '6px 12px',
                         backgroundColor: '#dc3545',
                         color: '#fff',
                         border: 'none',
@@ -319,8 +274,8 @@ function Expenses() {
               ))
             ) : (
               <tr>
-                <td colSpan="4" style={{ textAlign: 'center', padding: '12px' }}>
-                  No expenses yet.
+                <td colSpan="4" style={{ textAlign: 'center', padding: '12px', border: '1px solid #ddd' }}>
+                  No expenses available
                 </td>
               </tr>
             )}
