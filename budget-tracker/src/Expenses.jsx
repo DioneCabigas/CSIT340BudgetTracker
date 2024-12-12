@@ -64,25 +64,54 @@ function Expenses() {
     }
   };
 
-  const handleEditBudget = () => {
-    // Logic for editing the budget
-    console.log('Edit budget:', budget);
+  const handleEditBudget = async () => {
+    const updatedBudgetName = prompt('Enter the new budget name:', budget.budgetName);
+    const updatedBudgetAllocated = prompt(
+      'Enter the new allocated amount:',
+      budget.budgetAllocated
+    );
+
+    if (updatedBudgetName && updatedBudgetAllocated) {
+      try {
+        const response = await fetch('http://localhost:8080/api/budget/update', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            oldBudgetName: budget.budgetName,
+            newBudgetName: updatedBudgetName,
+            newBudgetAllocated: updatedBudgetAllocated,
+          }),
+        });
+
+        if (response.ok) {
+          navigate('/budgets');
+        } else {
+          console.error('Failed to update budget');
+        }
+      } catch (error) {
+        console.error('Error updating budget:', error);
+      }
+    }
   };
 
   const handleDeleteBudget = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/budget/delete?budgetName=${budget.budgetName}`,
-        { method: 'DELETE' }
-      );
+    if (window.confirm('Are you sure you want to delete this budget?')) {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/budget/delete?budgetName=${budget.budgetName}`,
+          { method: 'DELETE' }
+        );
 
-      if (response.ok) {
-        navigate('/budgets'); // Navigate back to budgets list after deletion
-      } else {
-        console.error('Failed to delete budget');
+        if (response.ok) {
+          navigate('/budgets');
+        } else {
+          console.error('Failed to delete budget');
+        }
+      } catch (error) {
+        console.error('Error deleting budget:', error);
       }
-    } catch (error) {
-      console.error('Error deleting budget:', error);
     }
   };
 
@@ -103,9 +132,14 @@ function Expenses() {
             alignItems: 'center',
           }}
         >
-          <div>
-            <h1 style={{ margin: 0 }}>Expenses for {budget ? budget.budgetName : 'Loading...'}</h1>
-            <p style={{ margin: '0.5rem 0' }}>Manage and track your expenses here.</p>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ fontSize: '24px' }}>{budget?.icon}</span>
+            <div style={{ flex: 1, marginLeft: '15px' }}>
+              <p style={{ margin: 0, fontWeight: 'bold' }}>{budget?.budgetName}</p>
+              <p style={{ margin: 0, color: '#4CAF50', fontWeight: 'bold' }}>
+                ${budget?.budgetAmountAllocated}
+              </p>
+            </div>
           </div>
           <div>
             <button

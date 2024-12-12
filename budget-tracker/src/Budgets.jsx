@@ -56,22 +56,6 @@ function Budgets() {
     }
   };
 
-  const handleDelete = async (budgetName) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/budget/${budgetName}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        fetchBudgets();
-      } else {
-        console.error('Failed to delete budget');
-      }
-    } catch (error) {
-      console.error('Error deleting budget:', error);
-    }
-  };
-
   const handleBudgetClick = (budget) => {
     navigate(`/expenses`, { state: { budget } });
   };
@@ -126,7 +110,6 @@ function Budgets() {
 
             <div style={{ marginBottom: '0.8rem' }}>
               <label style={{ fontWeight: 'bold', fontSize: '14px' }}>Enter Budget Allocation</label>
-              
               <input
                 type="number"
                 value={budgetAllocation}
@@ -186,7 +169,7 @@ function Budgets() {
         </div>
 
         <h3 style={{ marginBottom: '1rem' }}>Your Created Budgets</h3>
-        <div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
           {budgets.length > 0 ? (
             budgets.map((budget, index) => (
               <div
@@ -194,20 +177,19 @@ function Budgets() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
                   padding: '10px 15px',
                   backgroundColor: '#fff',
                   borderRadius: '8px',
                   border: '1px solid #ddd',
                   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                  marginBottom: '10px',
                   cursor: 'pointer',
+                  textAlign: 'left',
                 }}
                 onClick={() => handleBudgetClick(budget)}
               >
-                <span style={{ fontSize: '24px' }}>{budget.icon}</span>
-                <div style={{ flex: 1, marginLeft: '15px' }}>
-                  <p style={{ margin: 0, fontWeight: 'bold' }}>{budget.budgetName}</p>
+                <span style={{ fontSize: '24px', marginRight: '10px' }}>{budget.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ margin: '0', fontWeight: 'bold' }}>{budget.budgetName}</p>
                 </div>
                 <span style={{ fontWeight: 'bold', color: '#4CAF50' }}>
                   ${budget.budgetAmountAllocated}
