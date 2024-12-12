@@ -74,9 +74,9 @@ function Budgets() {
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
         >
-          <h1 style={{ margin: 0 }}>Hi, User!</h1>
+          <h1 style={{ margin: 0 }}>Create your Budgets!</h1>
           <p style={{ margin: '0.5rem 0' }}>
-            Here's what's happening with your money. Let's manage your budgets.
+            Segregate your expenses by categorizing them to each budget
           </p>
         </div>
 
@@ -88,7 +88,7 @@ function Budgets() {
             marginBottom: '1rem',
           }}
         >
-          <h2 style={{ fontSize: '18px', margin: '0 0 1rem 0' }}>Create a New Budget</h2>
+          
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '0.8rem' }}>
               <label style={{ fontWeight: 'bold', fontSize: '14px' }}>Enter Budget Name</label>

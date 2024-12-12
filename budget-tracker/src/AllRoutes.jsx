@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Budgets from "./Budgets";
 import Expenses from "./Expenses";
-import Accounts from "./Accounts";
 import Login from "./login";
 import Register from "./register";
 import LandingPage from "./LandingPage";
@@ -17,7 +16,6 @@ const AllRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/budgets" element={<Budgets />} />
         <Route path="/expenses" element={<Expenses />} />
-        <Route path="/account" element={<Accounts />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/userprofile" element={<UserProfile/>} />
