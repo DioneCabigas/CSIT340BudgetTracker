@@ -8,6 +8,8 @@ function Expenses() {
   const [expenseAmount, setExpenseAmount] = useState('');
   const [expenseDate, setExpenseDate] = useState('');
   const [expenses, setExpenses] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [budgetToDelete, setBudgetToDelete] = useState(null);
   const navigate = useNavigate();
 
   const budget = state?.budget;
@@ -65,14 +67,13 @@ function Expenses() {
   };
 
   const handleDeleteExpense = async (expenseId) => {
-    console.log('Expense ID:', expenseId);  // For debugging, log the ID to the console
     try {
       const response = await fetch(`http://localhost:8080/api/expense/deleteExpense/${expenseId}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        setExpenses(expenses.filter((expense) => expense.expenseId !== expenseId));  // Use expenseId here
+        setExpenses(expenses.filter((expense) => expense.expenseId !== expenseId));
       } else {
         console.error('Failed to delete expense');
       }
@@ -82,23 +83,22 @@ function Expenses() {
   };
 
   const handleDeleteBudget = async () => {
-    if (window.confirm('Are you sure you want to delete this budget?')) {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/budget/${budget.budgetName}`,
-          {
-            method: 'DELETE',
-          }
-        );
-
-        if (response.ok) {
-          navigate('/budgets'); // Redirect to the list of budgets after deletion
-        } else {
-          console.error('Failed to delete budget');
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/budget/${budgetToDelete.budgetName}`,
+        {
+          method: 'DELETE',
         }
-      } catch (error) {
-        console.error('Error deleting budget:', error);
+      );
+
+      if (response.ok) {
+        setShowDeleteModal(false);
+        navigate('/budgets');
+      } else {
+        console.error('Failed to delete budget');
       }
+    } catch (error) {
+      console.error('Error deleting budget:', error);
     }
   };
 
@@ -106,6 +106,63 @@ function Expenses() {
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
       <Sidebar />
       <div style={{ flex: 1, padding: '2rem' }}>
+        {showDeleteModal && (
+          <div
+            style={{
+              position: 'fixed',
+              top: '0',
+              left: '0',
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: '#fff',
+                padding: '1.5rem',
+                borderRadius: '8px',
+                width: '400px',
+                textAlign: 'center',
+              }}
+            >
+              <p>Are you sure you want to delete this budget?</p>
+              <div style={{ marginTop: '1rem' }}>
+                <button
+                  onClick={handleDeleteBudget}
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: '#dc3545',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    marginRight: '10px',
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: '#6c757d',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div
           style={{
             backgroundColor: '#fff',
@@ -130,7 +187,10 @@ function Expenses() {
           </div>
           <div>
             <button
-              onClick={handleDeleteBudget}
+              onClick={() => {
+                setShowDeleteModal(true);
+                setBudgetToDelete(budget);
+              }}
               style={{
                 padding: '10px 15px',
                 backgroundColor: '#dc3545',
@@ -257,7 +317,7 @@ function Expenses() {
                   </td>
                   <td style={{ padding: '12px', border: '1px solid #ddd', textAlign: 'center' }}>
                     <button
-                      onClick={() => handleDeleteExpense(expense.expenseId)}  // Use expense.expenseId here
+                      onClick={() => handleDeleteExpense(expense.expenseId)}
                       style={{
                         padding: '6px 12px',
                         backgroundColor: '#dc3545',

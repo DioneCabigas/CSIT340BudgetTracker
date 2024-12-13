@@ -69,9 +69,12 @@ const UserProfile = () => {
 
   // Logout function to redirect to login page
   const handleLogout = () => {
-    // Clear any session or authentication tokens here if applicable
-    navigate('/login');  // Redirect to login page
+    // Display a small delay to simulate logging out
+    setTimeout(() => {
+      navigate('/login'); // Redirect to login page after delay
+    }, 1000); // 1-second delay
   };
+  
 
   // Open the Change Password dialog
   const handleOpenChangePassword = () => {
@@ -101,7 +104,6 @@ const UserProfile = () => {
     // Make API call to change the password
     axios.put('http://localhost:8080/api/user/change-password', passwordData)
       .then(response => {
-        alert('Password changed successfully');
         handleCloseChangePassword(); // Close the dialog after success
       })
       .catch(error => {

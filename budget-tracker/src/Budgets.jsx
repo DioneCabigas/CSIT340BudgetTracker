@@ -74,9 +74,9 @@ function Budgets() {
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
         >
-          <h1 style={{ margin: 0 }}>Create your Budgets!</h1>
+          <h1 style={{ margin: 0 }}>Organize Your Finances!</h1>
           <p style={{ margin: '0.5rem 0' }}>
-            Segregate your expenses by categorizing them to each budget
+            Create budget categories and allocate your budget
           </p>
         </div>
 
