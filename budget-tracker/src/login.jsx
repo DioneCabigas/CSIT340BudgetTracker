@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import './css/login.css';
 
 function Login() {
@@ -33,7 +32,6 @@ function Login() {
       console.error('Error during login:', error);
     }
   };
-  
 
   return (
     <div className="login-container">
@@ -43,20 +41,6 @@ function Login() {
       <div className="form-section">
         <h2>Sign in</h2>
         <p>to continue to Budget Tracker</p>
-
-        <button className="social-button facebook">
-          <FaFacebook style={{ marginRight: '8px' }} />
-          Continue with Facebook
-        </button>
-
-        <button className="social-button google">
-          <FaGoogle style={{ marginRight: '8px' }} />
-          Continue with Google
-        </button>
-
-        <div className="divider">
-          <span>or</span>
-        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">

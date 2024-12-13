@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './css/register.css';
-import { FaFacebook, FaGoogle } from 'react-icons/fa';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -37,20 +36,6 @@ function Register() {
       <div className="form-section">
         <h2>Sign up</h2>
         <p>Create your Budget Tracker account</p>
-
-        <button className="social-button facebook">
-          <FaFacebook style={{ marginRight: '8px' }} />
-          Sign up with Facebook
-        </button>
-
-        <button className="social-button google">
-          <FaGoogle style={{ marginRight: '8px' }} />
-          Sign up with Google
-        </button>
-
-        <div className="divider">
-          <span>or</span>
-        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">

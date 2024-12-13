@@ -36,4 +36,21 @@ public class ExpenseService {
     public List<ExpenseEntity> getExpensesByBudgetName(String budgetName) {
         return expenseRepository.findByBudget_BudgetName(budgetName);
     }
+
+
+     // Calculate total spent across all expenses
+     public double getTotalSpent() {
+        List<ExpenseEntity> expenses = expenseRepository.findAll();
+        return expenses.stream()
+                .mapToDouble(ExpenseEntity::getExpenseAmountSpent)
+                .sum();
+    }
+
+    // Calculate total spent for a specific budget
+    public double getTotalSpentByBudget(String budgetName) {
+        List<ExpenseEntity> expenses = expenseRepository.findByBudget_BudgetName(budgetName);
+        return expenses.stream()
+                .mapToDouble(ExpenseEntity::getExpenseAmountSpent)
+                .sum();
+    }
 }

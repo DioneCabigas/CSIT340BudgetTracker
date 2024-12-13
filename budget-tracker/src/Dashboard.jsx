@@ -10,61 +10,81 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const Dashboard = () => {
   const [budgets, setBudgets] = useState([]);
   const [expenses, setExpenses] = useState([]);
+  const [user, setUser] = useState(null); // State to store user data
+  
+  // Fetch user data (you can modify the API endpoint to match your backend)
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/user/1'); // Adjust the endpoint as needed
+      const data = await response.json();
+      setUser(data);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
+  // Fetch budgets from backend
   const fetchBudgets = async () => {
     try {
       const response = await fetch('http://localhost:8080/api/budget');
       const data = await response.json();
-      setBudgets(data);
+      setBudgets(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching budgets:', error);
+      setBudgets([]);
     }
   };
 
+  // Fetch total spend for each budget
   const fetchExpenses = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/expense');
-      const data = await response.json();
-      
-      // Filter expenses by userId (assuming userId is 1)
-      const filteredExpenses = Array.isArray(data) ? data.filter(expense => expense.userId === 1) : [];
-      setExpenses(filteredExpenses);
+      const expenseData = [];
+      for (const budget of budgets) {
+        const response = await fetch(`http://localhost:8080/api/expense/getTotalSpent?budgetName=${budget.budgetName}`);
+        const totalSpent = await response.json();
+        expenseData.push(totalSpent);
+      }
+      setExpenses(expenseData);
     } catch (error) {
       console.error('Error fetching expenses:', error);
+      setExpenses([]);
     }
   };
 
+  // Fetch data on initial load
   useEffect(() => {
-    fetchBudgets();
-    fetchExpenses();
+    fetchUserData();  // Fetch user data
+    fetchBudgets();   // Fetch budgets
   }, []);
+
+  useEffect(() => {
+    if (budgets.length > 0) {
+      fetchExpenses(); // Fetch expenses after budgets are fetched
+    }
+  }, [budgets]);
 
   // Calculate Total Budget
   const totalBudget = budgets.reduce((total, budget) => total + budget.budgetAmountAllocated, 0);
 
-  // Prepare data for the chart dynamically based on budgets and expenses
-  // Prepare data for the chart dynamically based on budgets and expenses
-const chartData = {
-  labels: budgets.map(budget => budget.budgetName),
-  datasets: [
-    {
-      label: 'Allocated Budget',
-      data: budgets.map(budget => budget.budgetAmountAllocated),
-      backgroundColor: 'green',
-    },
-    {
-      label: 'Expenses',
-      data: budgets.map(budget => {
-        // Get expenses related to this budget
-        const budgetExpenses = expenses.filter(expense => expense.budgetId === budget.id);
-        // Calculate total expenses for this budget
-        return budgetExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-      }),
-      backgroundColor: 'red',
-    },
-  ],
-};
+  // Calculate Total Spend (sum of all expenses' expense_amount_spent)
+  const totalSpend = expenses.reduce((total, expense) => total + expense, 0);
 
+  // Prepare data for the chart dynamically based on budgets and expenses
+  const chartData = {
+    labels: budgets.map(budget => budget.budgetName),
+    datasets: [
+      {
+        label: 'Allocated Budget',
+        data: budgets.map(budget => budget.budgetAmountAllocated),
+        backgroundColor: 'green',
+      },
+      {
+        label: 'Expenses',
+        data: expenses, // Data for expenses
+        backgroundColor: 'red',
+      },
+    ],
+  };
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
@@ -80,7 +100,7 @@ const chartData = {
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
         >
-          <h1 style={{ margin: 0 }}>Hi, User!</h1>
+          <h1 style={{ margin: 0 }}>Hi, {user ? user.username : 'User'}!</h1>
           <p style={{ margin: '0.5rem 0' }}>
             Here's what's happening with your money. Let's manage your expenses.
           </p>
@@ -101,7 +121,7 @@ const chartData = {
               <CardContent>
                 <ArrowDownward style={{ color: '#f44336', fontSize: '2rem' }} />
                 <Typography variant="h6">Total Spend</Typography>
-                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>$230.32</Typography>
+                <Typography variant="h5" style={{ marginTop: '0.5rem' }}>${totalSpend.toFixed(2)}</Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -120,7 +140,7 @@ const chartData = {
           <Grid item xs={12} md={7}>
             <Card style={{ height: '300px' }}>
               <CardContent>
-                <Typography variant="h6" style={{ marginBottom: '1rem' }}>Expenses vs Budget Allocation</Typography>
+                <Typography variant="h6" style={{ marginBottom: '1rem' }}>Allocated Budget vs Total Expenses</Typography>
                 <div style={{ width: '100%', height: '200px' }}>
                   <Bar data={chartData} options={{ maintainAspectRatio: false }} />
                 </div>

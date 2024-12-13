@@ -16,6 +16,8 @@ public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
 
+    
+
     // Create or update an expense record
     @PostMapping("/postexpenserecord")
     public ExpenseEntity postExpenseRecord(@RequestBody ExpenseEntity expense) {
@@ -38,10 +40,20 @@ public class ExpenseController {
         }
 }
 
-
     // Read expenses by budget name
     @GetMapping("/getExpensesByBudgetName")
     public List<ExpenseEntity> getExpensesByBudgetName(@RequestParam String budgetName) {
         return expenseService.getExpensesByBudgetName(budgetName);
     }
+
+    @GetMapping("/getTotalSpent")
+    public double getTotalSpent(@RequestParam(required = false) String budgetName) {
+        if (budgetName != null) {
+            return expenseService.getTotalSpentByBudget(budgetName);
+        } else {
+            return expenseService.getTotalSpent();
+        }
+    }
+
+   
 }
