@@ -102,6 +102,21 @@ function Expenses() {
     }
   };
 
+  // Calculate the total expenses amount
+  const totalExpenses = expenses.reduce((total, expense) => total + expense.expenseAmountSpent, 0);
+
+  // Calculate the remaining budget
+  const remainingBudget = budget?.budgetAmountAllocated - totalExpenses;
+
+  // Calculate the percentage of the budget used (bar width)
+  const progressBarWidth = (remainingBudget / budget?.budgetAmountAllocated) * 100;
+  
+  // Determine bar color (red if over budget, green if under budget)
+  const barColor = remainingBudget < 0 ? '#dc3545' : '#28a745';
+
+  // Status message
+  const statusMessage = remainingBudget < 0 ? '(You are over the budget)' : '(You are still under the budget)';
+
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
       <Sidebar />
@@ -204,6 +219,52 @@ function Expenses() {
             </button>
           </div>
         </div>
+
+        {/* Budget Progress Bar */}
+        {budget && (
+          <div
+            style={{
+              backgroundColor: '#fff',
+              padding: '1rem',
+              marginBottom: '1.5rem',
+              borderRadius: '8px',
+              border: '1px solid #ddd',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <h3>Budget Progress <span style={{ fontSize: '16px', color: barColor }}>{statusMessage}</span></h3>
+            <div style={{ marginBottom: '1rem' }}>
+              <div
+                style={{
+                  backgroundColor: '#e9ecef',
+                  borderRadius: '20px',
+                  height: '25px',
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}
+              >
+                <div
+                  style={{
+                    width: `${progressBarWidth}%`,
+                    backgroundColor: barColor,
+                    height: '100%',
+                    textAlign: 'center',
+                    color: '#fff',
+                    lineHeight: '25px',
+                    fontWeight: 'bold',
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    borderRadius: '20px',
+                    paddingRight: '10px',
+                  }}
+                >
+                  ${remainingBudget.toFixed(2)}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div
           style={{
@@ -335,7 +396,7 @@ function Expenses() {
             ) : (
               <tr>
                 <td colSpan="4" style={{ textAlign: 'center', padding: '12px', border: '1px solid #ddd' }}>
-                  No expenses available
+                  No expenses yet
                 </td>
               </tr>
             )}
